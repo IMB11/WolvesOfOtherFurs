@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "woof",
+  "version": "${version}",
+  "name": "Woof",
+  "description": "Wolf variants for each biome they spawn in.",
+  "authors": [
+    "mineblock11"
+  ],
+  "contact": {},
+  "license": "AFL-3.0",
+  "icon": "assets/woof/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "mine.block.woof.client.WoofClient"
+    ],
+    "main": [
+      "mine.block.woof.Woof"
+    ],
+    "preLaunch": [
+      "mine.block.woof.WoofPrelaunch"
+    ]
+  },
+  "mixins": [
+    "woof.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.8",
+    "fabric": "*",
+    "minecraft": "1.19.1"
+  }
+}

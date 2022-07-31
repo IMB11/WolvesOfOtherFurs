@@ -1,0 +1,51 @@
+package mine.block.woof.entity;
+
+import net.minecraft.block.BedBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.FurnaceBlock;
+import net.minecraft.block.entity.ChestBlockEntity;
+import net.minecraft.block.enums.BedPart;
+import net.minecraft.entity.ai.goal.MoveToTargetPosGoal;
+import net.minecraft.entity.passive.CatEntity;
+import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.tag.BlockTags;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldView;
+
+public class DogSitOnBlockGoal extends MoveToTargetPosGoal {
+    private final WolfEntity wolf;
+
+    public DogSitOnBlockGoal(WolfEntity wolf, double speed) {
+        super(wolf, speed, 8);
+        this.wolf = wolf;
+    }
+
+    public boolean canStart() {
+        return this.wolf.isTamed() && !this.wolf.isSitting() && super.canStart();
+    }
+
+    public void start() {
+        super.start();
+        this.wolf.setInSittingPose(false);
+    }
+
+    public void stop() {
+        super.stop();
+        this.wolf.setInSittingPose(false);
+    }
+
+    public void tick() {
+        super.tick();
+        this.wolf.setInSittingPose(true);
+    }
+
+    protected boolean isTargetPos(WorldView world, BlockPos pos) {
+        if (!world.isAir(pos.up())) {
+            return false;
+        } else {
+            BlockState blockState = world.getBlockState(pos);
+            return blockState.isOf(Blocks.FURNACE) && blockState.get(FurnaceBlock.LIT) || blockState.isIn(BlockTags.WOOL_CARPETS) || blockState.isIn(BlockTags.BEDS, (state) -> state.getOrEmpty(BedBlock.PART).map((part) -> part != BedPart.HEAD).orElse(true));
+        }
+    }
+}

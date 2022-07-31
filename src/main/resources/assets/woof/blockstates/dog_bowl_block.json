@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "filled=false": { "model": "woof:block/dog_bowl_block" },
+    "filled=true": { "model": "woof:block/dog_bowl_block_meat" }
+  }
+}
