@@ -4,6 +4,7 @@ import mine.block.woof.SkinType;
 import mine.block.woof.Woof;
 import mine.block.woof.entity.DogEatOutBowlGoal;
 import mine.block.woof.entity.DogSitOnBlockGoal;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.CatSitOnBlockGoal;
 import net.minecraft.entity.passive.PassiveEntity;
@@ -37,15 +38,14 @@ public abstract class WolfEntityMixin extends TameableEntity {
         tickedAlreadyList.add(getId());
         BlockPos pos = this.getBlockPos();
         RegistryEntry<Biome> biome = this.getEntityWorld().getBiome(pos);
-        Identifier id = biome.getKey().get().getValue();
 
-        if(id.toString().contains("taiga")) {
-            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.TAIGA);
-        } else if(id.toString().contains("snow") || id.toString().contains("frozen")) {
+        if(biome.isIn(ConventionalBiomeTags.SNOWY)) {
             this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.SNOWY);
-        } else if(id.toString().contains("grove") || id.toString().contains("stone")) {
+        } else if(biome.isIn(ConventionalBiomeTags.TAIGA)) {
+            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.SNOWY);
+        } else if(biome.isIn(ConventionalBiomeTags.MOUNTAIN) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_PEAK) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_SLOPE)) {
             this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.MOUNTAIN);
-        } else if (id.toString().contains("desert") || id.toString().contains("badlands") || id.toString().contains("mesa")) {
+        } else if (biome.isIn(ConventionalBiomeTags.DESERT) || biome.isIn(ConventionalBiomeTags.BADLANDS)) {
             this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.DESERT);
         } else {
             this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.DEFAULT);
