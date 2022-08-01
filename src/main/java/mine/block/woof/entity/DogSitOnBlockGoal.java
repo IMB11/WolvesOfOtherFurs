@@ -1,5 +1,6 @@
 package mine.block.woof.entity;
 
+import mine.block.woof.block.DogBedBlock;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -45,7 +46,10 @@ public class DogSitOnBlockGoal extends MoveToTargetPosGoal {
             return false;
         } else {
             BlockState blockState = world.getBlockState(pos);
-            return blockState.isOf(Blocks.FURNACE) && blockState.get(FurnaceBlock.LIT) || blockState.isIn(BlockTags.WOOL_CARPETS) || blockState.isIn(BlockTags.BEDS, (state) -> state.getOrEmpty(BedBlock.PART).map((part) -> part != BedPart.HEAD).orElse(true));
+            return blockState.isOf(Blocks.FURNACE) && blockState.get(FurnaceBlock.LIT)
+                    || blockState.isIn(BlockTags.WOOL_CARPETS)
+                    || blockState.isIn(BlockTags.BEDS, (state) -> state.getOrEmpty(BedBlock.PART).map((part) -> part != BedPart.HEAD).orElse(true))
+                    || blockState.getBlock() instanceof DogBedBlock;
         }
     }
 }

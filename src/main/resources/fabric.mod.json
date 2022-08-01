@@ -16,7 +16,8 @@
       "mine.block.woof.client.WoofClient"
     ],
     "main": [
-      "mine.block.woof.Woof"
+      "mine.block.woof.Woof",
+      "mine.block.woof.datagen.WoofDatagen"
     ],
     "preLaunch": [
       "mine.block.woof.WoofPrelaunch"
