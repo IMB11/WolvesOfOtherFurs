@@ -62,7 +62,4 @@ public abstract class WolfEntityMixin extends TameableEntity {
         this.goalSelector.add(7, new DogSitOnBlockGoal((WolfEntity)(Object)this, 0.8));
         this.goalSelector.add(4, new DogEatOutBowlGoal((WolfEntity)(Object) this, 0.9));
     }
-
-    @Shadow
-    public abstract PassiveEntity createChild(ServerWorld world, PassiveEntity entity);
 }
