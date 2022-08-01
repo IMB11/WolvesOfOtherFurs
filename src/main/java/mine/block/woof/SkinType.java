@@ -4,6 +4,7 @@ public enum SkinType {
     TAIGA("woof:textures/variants/taiga.png", "woof:textures/variants/taiga_angry.png", "woof:textures/variants/taiga_tame.png"),
     DEFAULT("minecraft:textures/entity/wolf/wolf.png", "minecraft:textures/entity/wolf/wolf_angry.png", "minecraft:textures/entity/wolf/wolf_tame.png"),
     SNOWY("woof:textures/variants/snowy.png", "woof:textures/variants/snowy_angry.png", "woof:textures/variants/snowy_tame.png"),
+    DESERT("woof:textures/variants/desert.png", "woof:textures/variants/desert_angry.png", "woof:textures/variants/desert_tame.png"),
     MOUNTAIN("woof:textures/variants/mountain.png", "woof:textures/variants/mountain_angry.png", "woof:textures/variants/mountain_tame.png");
 
     private final String baseTexture;

@@ -45,6 +45,8 @@ public abstract class WolfEntityMixin extends TameableEntity {
             this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.SNOWY);
         } else if(id.toString().contains("grove") || id.toString().contains("stone")) {
             this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.MOUNTAIN);
+        } else if (id.toString().contains("desert") || id.toString().contains("badlands") || id.toString().contains("mesa")) {
+            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.DESERT);
         } else {
             this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.DEFAULT);
         }

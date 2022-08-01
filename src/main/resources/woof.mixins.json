@@ -4,6 +4,7 @@
   "package": "mine.block.woof.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "DefaultBiomeFeaturesMixin",
     "MobEntityMixin",
     "WolfEntityMixin"
   ],

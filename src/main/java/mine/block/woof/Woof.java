@@ -1,10 +1,8 @@
 package mine.block.woof;
 
 import mine.block.woof.block.WoofBlocks;
-import mine.block.woof.item.DyeableLeadItem;
 import mine.block.woof.item.WoofItems;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.impl.tag.convention.TagRegistration;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandler;
@@ -18,9 +16,6 @@ import net.minecraft.util.registry.Registry;
 public class Woof implements ModInitializer {
     private static final TrackedDataHandler<SkinType> SKIN_TYPE_TRACKER_ENUM = TrackedDataHandler.ofEnum(SkinType.class);
     public static TrackedData<SkinType> WOLF_SKIN_TYPE = DataTracker.registerData(WolfEntity.class, SKIN_TYPE_TRACKER_ENUM);
-
-//    public static final TagKey<Item> COOKED_MEAT = TagRegistration.ITEM_TAG_REGISTRATION.registerCommon("cooked_meat");
-//    public static final TagKey<Item> RAW_MEAT = TagRegistration.ITEM_TAG_REGISTRATION.registerCommon("raw_meat");
     public static final TagKey<Item> MEATS = TagKey.of(Registry.ITEM_KEY, new Identifier("woof:meats"));
 
 
