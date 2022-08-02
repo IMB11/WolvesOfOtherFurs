@@ -14,6 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class DefaultBiomeFeaturesMixin {
     @Inject(method = "addBatsAndMonsters", at = @At("TAIL"))
     private static void addBatsAndMonsters_Tail(SpawnSettings.@NotNull Builder builder, CallbackInfo ci) {
-        builder.spawn(SpawnGroup.AMBIENT, new SpawnSettings.SpawnEntry(EntityType.WOLF, 7, 4, 4));
+        builder.spawn(SpawnGroup.AMBIENT, new SpawnSettings.SpawnEntry(EntityType.WOLF, 4, 1, 2));
     }
 }
