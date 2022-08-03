@@ -47,6 +47,12 @@ public abstract class WolfEntityMixin extends TameableEntity {
     @Unique
     private int hungerTick;
 
+    @Inject(method = "<init>", at = @At("TAIL"))
+    public void init_InjectTail(EntityType entityType, World world, CallbackInfo ci) {
+        this.setCanPickUpLoot(true);
+    }
+
+
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick_InjectHead(CallbackInfo ci) {
         if(tickedAlreadyList.contains(getId())) return;

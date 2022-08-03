@@ -3,7 +3,11 @@ package mine.block.woof;
 import mine.block.woof.block.WoofBlocks;
 import mine.block.woof.item.WoofItems;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.client.render.entity.CatEntityRenderer;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandler;
@@ -26,5 +30,19 @@ public class Woof implements ModInitializer {
         TrackedDataHandlerRegistry.register(SKIN_TYPE_TRACKER_ENUM);
         WoofBlocks.init();
         WoofItems.init();
+
+        BiomeModifications.addSpawn(ctx -> {
+            var biome = ctx.getBiomeRegistryEntry();
+            return biome.isIn(ConventionalBiomeTags.FOREST)
+                    || biome.isIn(ConventionalBiomeTags.DESERT)
+                    || biome.isIn(ConventionalBiomeTags.BADLANDS)
+                    || biome.isIn(ConventionalBiomeTags.SAVANNA)
+                    || biome.isIn(ConventionalBiomeTags.JUNGLE)
+                    || biome.isIn(ConventionalBiomeTags.MOUNTAIN)
+                    || biome.isIn(ConventionalBiomeTags.MOUNTAIN_PEAK)
+                    || biome.isIn(ConventionalBiomeTags.MOUNTAIN_SLOPE)
+                    || biome.isIn(ConventionalBiomeTags.SNOWY)
+                    || biome.isIn(ConventionalBiomeTags.TAIGA);
+        }, SpawnGroup.CREATURE, EntityType.WOLF, 5, 1, 2);
     }
 }
