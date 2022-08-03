@@ -37,15 +37,15 @@ public abstract class WolfEntityMixin extends TameableEntity {
         if(tickedAlreadyList.contains(getId())) return;
         tickedAlreadyList.add(getId());
         BlockPos pos = this.getBlockPos();
-        RegistryEntry<Biome> biome = this.getEntityWorld().getBiome(pos);
+        Biome biome = this.getEntityWorld().getBiome(pos).value();
 
-        if(biome.isIn(ConventionalBiomeTags.SNOWY)) {
+        if(biome.isCold(pos)) {
             this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.SNOWY);
-        } else if(biome.isIn(ConventionalBiomeTags.TAIGA)) {
-            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.SNOWY);
-        } else if(biome.isIn(ConventionalBiomeTags.MOUNTAIN) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_PEAK) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_SLOPE)) {
+        } else if(biome.getTemperature() < 0f) {
+            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.TAIGA);
+        } else if(biome.getTemperature() >= 0 && biome.getTemperature() <= 0.5f) {
             this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.MOUNTAIN);
-        } else if (biome.isIn(ConventionalBiomeTags.DESERT) || biome.isIn(ConventionalBiomeTags.BADLANDS) || biome.isIn(ConventionalBiomeTags.SAVANNA) || biome.isIn(ConventionalBiomeTags.JUNGLE)) {
+        } else if (biome.getTemperature() >= 1.5f) {
             this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.DESERT);
         } else {
             this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.DEFAULT);

@@ -3,6 +3,7 @@ package mine.block.woof;
 import mine.block.woof.block.WoofBlocks;
 import mine.block.woof.item.WoofItems;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.client.render.entity.CatEntityRenderer;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandler;
