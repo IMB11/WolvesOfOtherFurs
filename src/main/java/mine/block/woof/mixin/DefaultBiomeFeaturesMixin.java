@@ -12,8 +12,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(DefaultBiomeFeatures.class)
 public class DefaultBiomeFeaturesMixin {
+    @Inject(method = "addDesertMobs", at = @At("TAIL"))
+    private static void addDesertMobs(SpawnSettings.@NotNull Builder builder, CallbackInfo ci) {
+        builder.spawn(SpawnGroup.AMBIENT, new SpawnSettings.SpawnEntry(EntityType.WOLF, 4, 1, 2));
+    }
+
+    @Inject(method = "addPlainsMobs", at = @At("TAIL"))
+    private static void addPlainsMobs(SpawnSettings.@NotNull Builder builder, CallbackInfo ci) {
+        builder.spawn(SpawnGroup.AMBIENT, new SpawnSettings.SpawnEntry(EntityType.WOLF, 4, 1, 2));
+    }
+
+    @Inject(method = "addSnowyMobs", at = @At("TAIL"))
+    private static void addSnowyMobs(SpawnSettings.@NotNull Builder builder, CallbackInfo ci) {
+        builder.spawn(SpawnGroup.AMBIENT, new SpawnSettings.SpawnEntry(EntityType.WOLF, 4, 1, 2));
+    }
+
     @Inject(method = "addBatsAndMonsters", at = @At("TAIL"))
-    private static void addBatsAndMonsters_Tail(SpawnSettings.@NotNull Builder builder, CallbackInfo ci) {
+    private static void addBMMobs(SpawnSettings.@NotNull Builder builder, CallbackInfo ci) {
         builder.spawn(SpawnGroup.AMBIENT, new SpawnSettings.SpawnEntry(EntityType.WOLF, 4, 1, 2));
     }
 }
