@@ -15,12 +15,29 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.item.*;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class Woof implements ModInitializer {
-    private static final TrackedDataHandler<SkinType> SKIN_TYPE_TRACKER_ENUM = TrackedDataHandler.ofEnum(SkinType.class);
+    private static final TrackedDataHandler<SkinType> SKIN_TYPE_TRACKER_ENUM = new TrackedDataHandler<>() {
+        @Override
+        public void write(PacketByteBuf buf, SkinType value) {
+            buf.writeEnumConstant(value);
+        }
+
+        @Override
+        public SkinType read(PacketByteBuf buf) {
+            return buf.readEnumConstant(SkinType.class);
+        }
+
+        @Override
+        public SkinType copy(SkinType value) {
+            return SkinType.valueOf(value.name());
+        }
+    };
+
     public static TrackedData<SkinType> WOLF_SKIN_TYPE = DataTracker.registerData(WolfEntity.class, SKIN_TYPE_TRACKER_ENUM);
     public static final TagKey<Item> MEATS = TagKey.of(Registry.ITEM_KEY, new Identifier("woof:meats"));
 

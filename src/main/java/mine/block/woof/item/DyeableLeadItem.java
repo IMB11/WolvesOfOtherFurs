@@ -34,7 +34,6 @@ public class DyeableLeadItem extends LeadItem implements DyeableItem {
                 attachHeldMobsToBlock(playerEntity, world, blockPos);
             }
 
-            world.emitGameEvent(GameEvent.BLOCK_ATTACH, blockPos, GameEvent.Emitter.of(playerEntity));
             return ActionResult.success(world.isClient);
         } else {
             return ActionResult.PASS;
