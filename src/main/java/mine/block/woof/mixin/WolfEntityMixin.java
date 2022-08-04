@@ -156,12 +156,14 @@ public abstract class WolfEntityMixin extends TameableEntity {
     public void writeCustomDataToNbt_InjectTail(NbtCompound nbt, CallbackInfo ci) {
         nbt.putInt("hungerTick", hungerTick);
         nbt.putInt("eatTick", eatTick);
+        nbt.putString("skinType", this.getDataTracker().get(Woof.WOLF_SKIN_TYPE).name());
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     public void readCustomDataFromNbt_InjectTail(NbtCompound nbt, CallbackInfo ci) {
         this.hungerTick = nbt.getInt("hungerTick");
         this.eatTick = nbt.getInt("eatTick");
+        this.getDataTracker().set(Woof.WOLF_SKIN_TYPE, SkinType.valueOf(nbt.getString("skinType")));
         this.setCanPickUpLoot(true);
     }
 
