@@ -22,7 +22,7 @@ dependencies {
 
     include implementation("com.github.LlamaLad7:MixinExtras:0.0.12")
     annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.12")
-    include modImplementation("net.devtech:arrp:0.6.4")
+    include modImplementation("net.devtech:arrp:${project.arrp_version}")
 }
 
 processResources {
