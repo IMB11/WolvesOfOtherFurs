@@ -6,9 +6,7 @@ import mine.block.woof.entity.DogEatOutBowlGoal;
 import mine.block.woof.entity.DogSitOnBlockGoal;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.client.render.entity.model.WolfEntityModel;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.CatSitOnBlockGoal;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
@@ -22,8 +20,11 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -50,27 +51,6 @@ public abstract class WolfEntityMixin extends TameableEntity {
     @Inject(method = "<init>", at = @At("TAIL"))
     public void init_InjectTail(EntityType entityType, World world, CallbackInfo ci) {
         this.setCanPickUpLoot(true);
-    }
-
-
-    @Inject(method = "tick", at = @At("HEAD"))
-    public void tick_InjectHead(CallbackInfo ci) {
-        if(tickedAlreadyList.contains(getId())) return;
-        tickedAlreadyList.add(getId());
-        BlockPos pos = this.getBlockPos();
-        RegistryEntry<Biome> biome = this.getEntityWorld().getBiome(pos);
-
-        if(biome.isIn(ConventionalBiomeTags.SNOWY)) {
-            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.SNOWY);
-        } else if(biome.isIn(ConventionalBiomeTags.TAIGA)) {
-            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.SNOWY);
-        } else if(biome.isIn(ConventionalBiomeTags.MOUNTAIN) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_PEAK) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_SLOPE)) {
-            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.MOUNTAIN);
-        } else if (biome.isIn(ConventionalBiomeTags.DESERT) || biome.isIn(ConventionalBiomeTags.BADLANDS) || biome.isIn(ConventionalBiomeTags.SAVANNA) || biome.isIn(ConventionalBiomeTags.JUNGLE)) {
-            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.DESERT);
-        } else {
-            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.DEFAULT);
-        }
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"))
@@ -150,6 +130,26 @@ public abstract class WolfEntityMixin extends TameableEntity {
                 this.eatTick = 0;
             }
         }
+    }
+
+    @Override
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+        BlockPos pos = this.getBlockPos();
+        RegistryEntry<Biome> biome = this.getEntityWorld().getBiome(pos);
+
+        if(biome.isIn(ConventionalBiomeTags.SNOWY)) {
+            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.SNOWY);
+        } else if(biome.isIn(ConventionalBiomeTags.TAIGA)) {
+            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.TAIGA);
+        } else if(biome.isIn(ConventionalBiomeTags.MOUNTAIN) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_PEAK) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_SLOPE)) {
+            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.MOUNTAIN);
+        } else if (biome.isIn(ConventionalBiomeTags.DESERT) || biome.isIn(ConventionalBiomeTags.BADLANDS) || biome.isIn(ConventionalBiomeTags.SAVANNA) || biome.isIn(ConventionalBiomeTags.JUNGLE)) {
+            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.DESERT);
+        } else {
+            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.DEFAULT);
+        }
+
+        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
