@@ -2,7 +2,6 @@ package mine.block.woof.client;
 
 import mine.block.woof.Woof;
 import mine.block.woof.client.render.WolfItemRenderLayer;
-import mine.block.woof.item.DyeableLeadItem;
 import mine.block.woof.item.WoofItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -18,6 +17,9 @@ import net.minecraft.client.render.entity.model.WolfEntityModel;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.item.DyeableItem;
+import net.minecraft.item.Items;
+import net.minecraft.item.LeadItem;
 import net.minecraft.util.DyeColor;
 
 @Environment(EnvType.CLIENT)
@@ -25,10 +27,10 @@ public class WoofClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if(stack.getItem() instanceof DyeableLeadItem leadDye) {
+            if(stack.getItem() instanceof DyeableItem leadDye) {
                 return leadDye.getColor(stack);
             } else return DyeColor.WHITE.getMapColor().color;
-        }, WoofItems.DYEABLE_LEAD_ITEM);
+        }, Items.LEAD);
 
         LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, context) -> {
             if(entityRenderer instanceof WolfEntityRenderer) {
