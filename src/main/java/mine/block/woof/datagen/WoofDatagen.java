@@ -20,9 +20,7 @@ import java.util.Map;
 
 
 public class WoofDatagen implements ModInitializer {
-
     public static final RuntimeResourcePack RESOURCE_PACK = RuntimeResourcePack.create("woof:arrp");
-
     @Override
     public void onInitialize() {
         for (Map.Entry<String, Block> value : WoofBlocks.DOG_BEDS.entrySet()) {

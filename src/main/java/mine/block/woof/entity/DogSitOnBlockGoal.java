@@ -47,7 +47,7 @@ public class DogSitOnBlockGoal extends MoveToTargetPosGoal {
         } else {
             BlockState blockState = world.getBlockState(pos);
             return blockState.isOf(Blocks.FURNACE) && blockState.get(FurnaceBlock.LIT)
-                    || blockState.isIn(BlockTags.CARPETS)
+                    || blockState.isIn(BlockTags.WOOL_CARPETS)
                     || blockState.isIn(BlockTags.BEDS, (state) -> state.getOrEmpty(BedBlock.PART).map((part) -> part != BedPart.HEAD).orElse(true))
                     || blockState.getBlock() instanceof DogBedBlock;
         }
