@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.12-SNAPSHOT'
+    id 'fabric-loom' version '1.0-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -9,6 +9,11 @@ group = project.maven_group
 repositories {
     maven { url "https://jitpack.io/" }
     maven { url "https://storage.googleapis.com/devan-maven/" }
+    maven { url 'https://maven.wispforest.io' }
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/woof.accesswidener")
 }
 
 dependencies {
@@ -22,7 +27,9 @@ dependencies {
 
     include implementation("com.github.LlamaLad7:MixinExtras:0.0.12")
     annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.12")
+
     include modImplementation("net.devtech:arrp:${project.arrp_version}")
+    include modImplementation("io.wispforest:owo-lib:0.8.2+1.19")
 }
 
 processResources {

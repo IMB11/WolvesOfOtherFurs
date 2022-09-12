@@ -1,0 +1,4 @@
+accessWidener v2 named
+accessible    field    net/minecraft/entity/passive/WolfEntity    lastShakeProgress    F
+accessible    field    net/minecraft/entity/passive/WolfEntity    shakeProgress    F
+accessible    class    net/minecraft/client/gui/hud/InGameHud$HeartType

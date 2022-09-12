@@ -2,23 +2,23 @@ package mine.block.woof.mixin;
 
 import mine.block.woof.SkinType;
 import mine.block.woof.Woof;
+import mine.block.woof.client.gui.WolfInfoScreen;
 import mine.block.woof.entity.DogEatOutBowlGoal;
 import mine.block.woof.entity.DogSitOnBlockGoal;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
-import net.minecraft.client.render.entity.model.WolfEntityModel;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.CatSitOnBlockGoal;
-import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -26,11 +26,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 
@@ -51,6 +51,14 @@ public abstract class WolfEntityMixin extends TameableEntity {
     @Inject(method = "<init>", at = @At("TAIL"))
     public void init_InjectTail(EntityType entityType, World world, CallbackInfo ci) {
         this.setCanPickUpLoot(true);
+    }
+
+    @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
+    public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        if(player.isSneaking() && player.getStackInHand(hand).isEmpty() && player.world.isClient) {
+            MinecraftClient.getInstance().setScreen(new WolfInfoScreen((WolfEntity)(Object)this));
+            cir.setReturnValue(ActionResult.FAIL);
+        }
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"))

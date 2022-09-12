@@ -23,6 +23,7 @@
       "mine.block.woof.WoofPrelaunch"
     ]
   },
+  "accessWidener": "woof.accesswidener",
   "mixins": [
     "woof.mixins.json"
   ],
