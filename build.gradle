@@ -10,6 +10,7 @@ repositories {
     maven { url "https://jitpack.io/" }
     maven { url "https://storage.googleapis.com/devan-maven/" }
     maven { url 'https://maven.wispforest.io' }
+    maven { url 'https://maven.mineblock11.dev/releases'}
 }
 
 loom {
@@ -25,11 +26,13 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+    modImplementation("mine.block:mine11lib:${project.lib11_version}")
+
     include implementation("com.github.LlamaLad7:MixinExtras:0.0.12")
     annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.12")
 
     include modImplementation("net.devtech:arrp:${project.arrp_version}")
-    include modImplementation("io.wispforest:owo-lib:0.8.2+1.19")
+    include modImplementation("io.wispforest:owo-lib:${project.owo_version}")
 }
 
 processResources {

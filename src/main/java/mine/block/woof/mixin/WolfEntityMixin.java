@@ -55,6 +55,7 @@ public abstract class WolfEntityMixin extends TameableEntity {
 
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
+        if(player != getOwner()) return;
         if(player.isSneaking() && player.getStackInHand(hand).isEmpty() && player.world.isClient) {
             MinecraftClient.getInstance().setScreen(new WolfInfoScreen((WolfEntity)(Object)this));
             cir.setReturnValue(ActionResult.FAIL);
