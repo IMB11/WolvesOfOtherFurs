@@ -1,14 +1,12 @@
 package mine.block.woof.entity;
 
-import mine.block.woof.block.DogBedBlock;
+import mine.block.woof.register.block.DogBedBlock;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FurnaceBlock;
-import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.block.enums.BedPart;
 import net.minecraft.entity.ai.goal.MoveToTargetPosGoal;
-import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;

@@ -1,6 +1,6 @@
-package mine.block.woof.item;
+package mine.block.woof.register.item;
 
-import mine.block.woof.block.WoofBlocks;
+import mine.block.woof.register.block.WoofBlocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;

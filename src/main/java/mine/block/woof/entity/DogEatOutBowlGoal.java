@@ -1,10 +1,9 @@
 package mine.block.woof.entity;
 
-import mine.block.woof.block.DogBowlBlock;
-import mine.block.woof.block.WoofBlocks;
+import mine.block.woof.register.block.DogBowlBlock;
+import mine.block.woof.register.block.WoofBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ai.goal.MoveToTargetPosGoal;
-import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.sound.SoundCategory;

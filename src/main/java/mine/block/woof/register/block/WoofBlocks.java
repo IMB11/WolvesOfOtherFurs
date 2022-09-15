@@ -1,16 +1,14 @@
-package mine.block.woof.block;
+package mine.block.woof.register.block;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.item.*;
 import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 public class WoofBlocks {
     public static final DogBowlBlock DOG_BOWL_BLOCK;

@@ -29,6 +29,7 @@ dependencies {
     modImplementation("mine.block:mine11lib:${project.lib11_version}")
 
     include implementation("com.github.LlamaLad7:MixinExtras:0.0.12")
+    include implementation('org.reflections:reflections:0.10.2')
     annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.12")
 
     include modImplementation("net.devtech:arrp:${project.arrp_version}")

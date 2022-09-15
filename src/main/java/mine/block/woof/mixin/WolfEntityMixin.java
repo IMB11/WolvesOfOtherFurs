@@ -1,10 +1,10 @@
 package mine.block.woof.mixin;
 
 import mine.block.woof.SkinType;
-import mine.block.woof.Woof;
-import mine.block.woof.client.gui.WolfInfoScreen;
+import mine.block.woof.client.gui.WolfManagerScreen;
 import mine.block.woof.entity.DogEatOutBowlGoal;
 import mine.block.woof.entity.DogSitOnBlockGoal;
+import mine.block.woof.entity.WolfDataTracker;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.*;
@@ -18,7 +18,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -57,7 +56,7 @@ public abstract class WolfEntityMixin extends TameableEntity {
     public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if(player != getOwner()) return;
         if(player.isSneaking() && player.getStackInHand(hand).isEmpty() && player.world.isClient) {
-            MinecraftClient.getInstance().setScreen(new WolfInfoScreen((WolfEntity)(Object)this));
+            MinecraftClient.getInstance().setScreen(new WolfManagerScreen((WolfEntity)(Object)this));
             cir.setReturnValue(ActionResult.FAIL);
         }
     }
@@ -147,15 +146,15 @@ public abstract class WolfEntityMixin extends TameableEntity {
         RegistryEntry<Biome> biome = this.getEntityWorld().getBiome(pos);
 
         if(biome.isIn(ConventionalBiomeTags.SNOWY)) {
-            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.SNOWY);
+            this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.SNOWY);
         } else if(biome.isIn(ConventionalBiomeTags.TAIGA)) {
-            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.TAIGA);
+            this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.TAIGA);
         } else if(biome.isIn(ConventionalBiomeTags.MOUNTAIN) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_PEAK) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_SLOPE)) {
-            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.MOUNTAIN);
+            this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.MOUNTAIN);
         } else if (biome.isIn(ConventionalBiomeTags.DESERT) || biome.isIn(ConventionalBiomeTags.BADLANDS) || biome.isIn(ConventionalBiomeTags.SAVANNA) || biome.isIn(ConventionalBiomeTags.JUNGLE)) {
-            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.DESERT);
+            this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.DESERT);
         } else {
-            this.dataTracker.set(Woof.WOLF_SKIN_TYPE, SkinType.DEFAULT);
+            this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.DEFAULT);
         }
 
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
@@ -165,20 +164,20 @@ public abstract class WolfEntityMixin extends TameableEntity {
     public void writeCustomDataToNbt_InjectTail(NbtCompound nbt, CallbackInfo ci) {
         nbt.putInt("hungerTick", hungerTick);
         nbt.putInt("eatTick", eatTick);
-        nbt.putString("skinType", this.getDataTracker().get(Woof.WOLF_SKIN_TYPE).name());
+        nbt.putString("skinType", this.getDataTracker().get(WolfDataTracker.WOLF_SKIN_TYPE).name());
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     public void readCustomDataFromNbt_InjectTail(NbtCompound nbt, CallbackInfo ci) {
         this.hungerTick = nbt.getInt("hungerTick");
         this.eatTick = nbt.getInt("eatTick");
-        this.getDataTracker().set(Woof.WOLF_SKIN_TYPE, SkinType.valueOf(nbt.getString("skinType")));
+        this.getDataTracker().set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.valueOf(nbt.getString("skinType")));
         this.setCanPickUpLoot(true);
     }
 
     @Inject(method = "initDataTracker", at = @At("TAIL"))
     public void initDataTracker_InjectTail(CallbackInfo ci) {
-        this.dataTracker.startTracking(Woof.WOLF_SKIN_TYPE, SkinType.DEFAULT);
+        this.dataTracker.startTracking(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.DEFAULT);
     }
 
     @Inject(method = "initGoals", at = @At("TAIL"))

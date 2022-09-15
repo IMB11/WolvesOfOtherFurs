@@ -1,7 +1,7 @@
 package mine.block.woof.mixin;
 
 import mine.block.woof.SkinType;
-import mine.block.woof.Woof;
+import mine.block.woof.entity.WolfDataTracker;
 import net.minecraft.client.render.entity.WolfEntityRenderer;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.util.Identifier;
@@ -16,7 +16,7 @@ public class WolfEntityRendererMixin {
      */
     @Overwrite
     public Identifier getTexture(WolfEntity entity) {
-        SkinType type = entity.getDataTracker().get(Woof.WOLF_SKIN_TYPE);
+        SkinType type = entity.getDataTracker().get(WolfDataTracker.WOLF_SKIN_TYPE);
         return getTexture(entity, type);
     }
 

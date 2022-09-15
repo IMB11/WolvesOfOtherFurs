@@ -1,10 +1,8 @@
-package mine.block.woof.block;
+package mine.block.woof.register.block;
 
 import mine.block.woof.Woof;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Property;
@@ -18,7 +16,6 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-import java.util.Objects;
 import java.util.stream.Stream;
 
 public class DogBowlBlock extends Block {
