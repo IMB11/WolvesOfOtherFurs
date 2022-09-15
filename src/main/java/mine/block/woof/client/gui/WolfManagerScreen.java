@@ -112,9 +112,9 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
 
         rightColumn.child(Components.label(Text.literal("Use these tricks to control your dog.")).margins(Insets.of(3)));
         rightColumn.child(
-                Containers.horizontalScroll(
-                        Sizing.fill(25),
+                Containers.verticalScroll(
                         Sizing.content(),
+                        Sizing.fill(50),
                         Components.list(
                                 new ArrayList<>(WoofRegistries.DOG_COMMAND_REGISTRY.keySet()),
                                 flowLayout -> {},
@@ -122,10 +122,10 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
                                     NbtCompound compound = new NbtCompound();
                                     compound.putUuid("wolfUUID", target.getUuid());
                                     compound.putString("command", identifier.getPath());
-                                    ClientPlayNetworking.send(WoofPackets.SEND_DOG_COMMAND.ID, PacketByteBufs.create());
+                                    ClientPlayNetworking.send(WoofPackets.SEND_DOG_COMMAND.ID, PacketByteBufs.create().writeNbt(compound));
                                     this.close();
-                                }).margins(Insets.horizontal(3)).horizontalSizing(Sizing.fixed(20)),
-                                false)
+                                }).margins(Insets.horizontal(3)).horizontalSizing(Sizing.fill(75)),
+                                true)
                 ).padding(Insets.of(4)).margins(Insets.left(15))
         );
 

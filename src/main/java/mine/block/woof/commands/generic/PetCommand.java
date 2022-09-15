@@ -19,10 +19,10 @@ public class PetCommand implements DogCommand {
     @Override
     public void run(NbtCompound context, ServerWorld world, PlayerEntity master, WolfEntity target) {
         if(target.getHealth() < (1f/2f * target.getMaxHealth())) {
-            world.playSoundFromEntity(master, target, SoundEvents.ENTITY_WOLF_GROWL, SoundCategory.HOSTILE, 1f, 1f);
+            world.playSound(target.getX(), target.getY(), target.getZ(), SoundEvents.ENTITY_WOLF_GROWL, SoundCategory.NEUTRAL, 1f, 1f, false);
             showEmoteParticle(false, world, target);
         } else {
-            world.playSoundFromEntity(master, target, SoundEvents.ENTITY_WOLF_WHINE, SoundCategory.NEUTRAL, 1f, 1f);
+            world.playSound(target.getX(), target.getY(), target.getZ(), SoundEvents.ENTITY_WOLF_WHINE, SoundCategory.NEUTRAL, 1f, 1f, false);
             showEmoteParticle(true, world, target);
         }
     }
@@ -38,7 +38,7 @@ public class PetCommand implements DogCommand {
             double d = this.random.nextGaussian() * 0.02;
             double e = this.random.nextGaussian() * 0.02;
             double f = this.random.nextGaussian() * 0.02;
-            world.addParticle(particleEffect, pos.getParticleX(1.0), pos.getRandomBodyY() + 0.5, pos.getParticleZ(1.0), d, e, f);
+            world.spawnParticles(particleEffect, pos.getParticleX(1.0), pos.getRandomBodyY() + 0.5, pos.getParticleZ(1.0), 1, d, e, f, 1);
         }
 
     }

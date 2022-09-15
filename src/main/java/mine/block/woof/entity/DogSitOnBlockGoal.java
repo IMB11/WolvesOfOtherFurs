@@ -26,17 +26,17 @@ public class DogSitOnBlockGoal extends MoveToTargetPosGoal {
 
     public void start() {
         super.start();
-        this.wolf.setInSittingPose(false);
+        this.wolf.setSitting(false);
     }
 
     public void stop() {
         super.stop();
-        this.wolf.setInSittingPose(false);
+        this.wolf.setSitting(false);
     }
 
     public void tick() {
         super.tick();
-        this.wolf.setInSittingPose(true);
+        this.wolf.setSitting(true);
     }
 
     protected boolean isTargetPos(WorldView world, BlockPos pos) {

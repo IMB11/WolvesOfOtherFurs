@@ -17,9 +17,10 @@ public class WoofRegistries {
         WoofItems.init();
 
         try {
-            Reflections ref = new Reflections("mine.block.woof.register");
+            Reflections ref = new Reflections("mine.block.woof.commands");
             Set<Class<? extends DogCommand>> subTypes = ref.getSubTypesOf(DogCommand.class);
             for (Class<? extends DogCommand> subType : subTypes) {
+                System.out.println(subType);
                 DogCommand command = subType.getConstructor().newInstance();
                 DOG_COMMAND_REGISTRY.put(command.getID(), command);
             }

@@ -57,6 +57,7 @@ public abstract class WolfEntityMixin extends TameableEntity {
         if(player != getOwner()) return;
         if(player.isSneaking() && player.getStackInHand(hand).isEmpty() && player.world.isClient) {
             MinecraftClient.getInstance().setScreen(new WolfManagerScreen((WolfEntity)(Object)this));
+            cir.cancel();
             cir.setReturnValue(ActionResult.FAIL);
         }
     }

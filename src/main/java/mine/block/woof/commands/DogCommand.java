@@ -9,7 +9,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 
 public interface DogCommand {
-    @Environment(EnvType.SERVER)
     void run(NbtCompound context, ServerWorld world, PlayerEntity master, WolfEntity target);
     Identifier getID();
 }
