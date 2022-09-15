@@ -17,7 +17,6 @@ import net.minecraft.util.registry.Registry;
 public class Woof implements ModInitializer {
     public static final TagKey<Item> MEATS = TagKey.of(Registry.ITEM_KEY, new Identifier("woof:meats"));
 
-
     @Override
     public void onInitialize() {
         TrackedDataHandlerRegistry.register(WolfDataTracker.SKIN_TYPE_TRACKER_ENUM);

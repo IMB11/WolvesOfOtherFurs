@@ -1,19 +1,43 @@
 package mine.block.woof.client.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.Components;
+import io.wispforest.owo.ui.component.LabelComponent;
 import io.wispforest.owo.ui.container.*;
 import io.wispforest.owo.ui.core.*;
+import mine.block.woof.register.WoofRegistries;
+import mine.block.woof.server.WoofPackets;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.opengl.GL11;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
     private final WolfEntity target;
+    private final FlowLayout leftAnchor = Containers.verticalFlow(Sizing.content(), Sizing.content());
+    private final FlowLayout rightAnchor = Containers.verticalFlow(Sizing.content(), Sizing.content());
+    private final FlowLayout leftColumn = Containers.verticalFlow(Sizing.fill(100), Sizing.content());
+    private final FlowLayout rightColumn = Containers.verticalFlow(Sizing.fill(100), Sizing.content());
+
+    private int viewportBeginX;
+    private int viewportEndX;
+    private boolean hasBothColumns = false;
 
     public WolfManagerScreen(WolfEntity target) {
         this.target = target;
@@ -21,7 +45,43 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
 
     @Override
     protected @NotNull OwoUIAdapter<FlowLayout> createAdapter() {
-        return OwoUIAdapter.create(this, Containers::verticalFlow);
+        return OwoUIAdapter.create(this, Containers::horizontalFlow);
+    }
+
+    @Override
+    protected void init() {
+        this.viewportBeginX = (int) ((this.width - this.height) * 0.5);
+        this.viewportEndX = (int) (this.width - (this.width - this.height) * 0.5) + 1;
+
+        this.leftAnchor.clearChildren();
+        this.rightAnchor.clearChildren();
+
+        if (this.viewportBeginX < 200) {
+            this.viewportEndX -= this.viewportBeginX;
+            this.viewportBeginX = 0;
+            this.hasBothColumns = false;
+
+            this.leftAnchor.horizontalSizing(Sizing.fixed(0)).verticalSizing(Sizing.fixed(this.height));
+            this.rightAnchor.positioning(Positioning.absolute(viewportEndX, 0)).horizontalSizing(Sizing.fixed(this.width - this.viewportEndX)).verticalSizing(Sizing.fixed(this.height));
+
+            this.rightAnchor.child(
+                    Containers.verticalScroll(Sizing.fill(100), Sizing.fill(100), Containers.verticalFlow(Sizing.content(), Sizing.content())
+                            .child(leftColumn)
+                            .child(Components.box(Sizing.fill(85), Sizing.fixed(1)).color(Color.ofDye(DyeColor.GRAY)).fill(true).margins(Insets.top(15)))
+                            .child(rightColumn)
+                            .horizontalAlignment(HorizontalAlignment.CENTER))
+
+            );
+        } else {
+            this.hasBothColumns = true;
+
+            this.leftAnchor.horizontalSizing(Sizing.fixed(viewportBeginX)).verticalSizing(Sizing.fixed(this.height));
+            this.rightAnchor.positioning(Positioning.absolute(viewportEndX, 0)).horizontalSizing(Sizing.fixed(viewportBeginX)).verticalSizing(Sizing.fixed(this.height));
+            this.leftAnchor.child(Containers.verticalScroll(Sizing.fill(100), Sizing.fill(100), this.leftColumn).padding(Insets.top(20)));
+            this.rightAnchor.child(Containers.verticalScroll(Sizing.fill(100), Sizing.fill(100), this.rightColumn).padding(Insets.top(20)));
+        }
+
+        super.init();
     }
 
     @Override
@@ -29,20 +89,66 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
         return false;
     }
 
+    public static LabelComponent sectionHeader(FlowLayout container, String title, boolean separate) {
+        final var label = Components.label(Text.of(title)).shadow(true);
+        if (separate) label.margins(Insets.top(20));
+        label.margins(label.margins().get().withBottom(5));
+
+        container.child(label);
+        return label;
+    }
+
     @Override
     protected void build(FlowLayout rootComponent) {
+
+        this.leftColumn.margins(Insets.top(20));
+        this.rightColumn.margins(Insets.top(20));
+
+        rootComponent.child(leftAnchor.padding(Insets.left(10)).positioning(Positioning.absolute(0, 0)));
+        rootComponent.child(rightAnchor.padding(Insets.left(10)));
+
+        sectionHeader(leftColumn, "Info", true);
+        sectionHeader(rightColumn, "Tricks", true);
+
+        rightColumn.child(Components.label(Text.literal("Use these tricks to control your dog.")).margins(Insets.of(3)));
+        rightColumn.child(
+                Containers.horizontalScroll(
+                        Sizing.fill(25),
+                        Sizing.content(),
+                        Components.list(
+                                new ArrayList<>(WoofRegistries.DOG_COMMAND_REGISTRY.keySet()),
+                                flowLayout -> {},
+                                (Identifier identifier) -> Components.button(Text.translatable(identifier.toTranslationKey()), button -> {
+                                    NbtCompound compound = new NbtCompound();
+                                    compound.putUuid("wolfUUID", target.getUuid());
+                                    compound.putString("command", identifier.getPath());
+                                    ClientPlayNetworking.send(WoofPackets.SEND_DOG_COMMAND.ID, PacketByteBufs.create());
+                                    this.close();
+                                }).margins(Insets.horizontal(3)).horizontalSizing(Sizing.fixed(20)),
+                                false)
+                ).padding(Insets.of(4)).margins(Insets.left(15))
+        );
+
         String ownerName = Objects.requireNonNull(this.target.getOwner()).getEntityName();
         String collarColor = this.target.getCollarColor().getName();
         collarColor = StringUtils.capitalize(collarColor);
 
-        rootComponent.surface(Surface.VANILLA_TRANSLUCENT);
-        rootComponent.child(Containers.draggable(Sizing.content(), Sizing.content(), Containers.verticalFlow(Sizing.content(), Sizing.content())
-                .child(Components.label(Text.literal("Preview")).horizontalTextAlignment(HorizontalAlignment.CENTER))
-                .child(Components.entity(Sizing.fixed(128), target).scaleToFit(true).allowMouseRotation(true).margins(Insets.of(5)))
+        leftColumn.child(Components.label(Text.literal("Here's some information on your dog!.")).margins(Insets.of(3)));
+
+        leftColumn.child(Components.label(Text.literal("Preview")).horizontalTextAlignment(HorizontalAlignment.CENTER))
                 .child(Components.label(Text.literal("Statistics").formatted(Formatting.UNDERLINE)).horizontalTextAlignment(HorizontalAlignment.CENTER).margins(Insets.of(5, 2, 0, 0)))
                 .child(Components.label(Text.literal("Owner - " + ownerName)))
                 .child(Components.label(Text.literal("Collar Color - " + collarColor)))
-                .child(Components.label(Text.literal("Health - " + this.target.getHealth() + "/" + this.target.getMaxHealth()))).padding(Insets.of(10)).verticalAlignment(VerticalAlignment.CENTER).horizontalAlignment(HorizontalAlignment.CENTER)
-        ).positioning(Positioning.relative(25, 50)).padding(Insets.of(5)).surface(Surface.DARK_PANEL));
+                .child(Components.label(Text.literal("Health - " + this.target.getHealth() + "/" + this.target.getMaxHealth()))).padding(Insets.of(3)).verticalAlignment(VerticalAlignment.CENTER).horizontalAlignment(HorizontalAlignment.CENTER);
+
+        rootComponent.surface(Surface.VANILLA_TRANSLUCENT);
+//        rootComponent.child(Containers.draggable(Sizing.content(), Sizing.content(), Containers.verticalFlow(Sizing.content(), Sizing.content())
+//                .child(Components.label(Text.literal("Preview")).horizontalTextAlignment(HorizontalAlignment.CENTER))
+//                .child(Components.entity(Sizing.fixed(128), target).scaleToFit(true).allowMouseRotation(true).margins(Insets.of(5)))
+//                .child(Components.label(Text.literal("Statistics").formatted(Formatting.UNDERLINE)).horizontalTextAlignment(HorizontalAlignment.CENTER).margins(Insets.of(5, 2, 0, 0)))
+//                .child(Components.label(Text.literal("Owner - " + ownerName)))
+//                .child(Components.label(Text.literal("Collar Color - " + collarColor)))
+//                .child(Components.label(Text.literal("Health - " + this.target.getHealth() + "/" + this.target.getMaxHealth()))).padding(Insets.of(10)).verticalAlignment(VerticalAlignment.CENTER).horizontalAlignment(HorizontalAlignment.CENTER)
+//        ).positioning(Positioning.relative(25, 50)).padding(Insets.of(5)).surface(Surface.DARK_PANEL));
     }
 }
