@@ -24,19 +24,21 @@ public class DogSitOnBlockGoal extends MoveToTargetPosGoal {
         return this.wolf.isTamed() && !this.wolf.isSitting() && super.canStart();
     }
 
-    public void start() {
-        super.start();
-        this.wolf.setSitting(false);
+    public boolean shouldContinue() {
+        return this.wolf.isSitting();
     }
 
     public void stop() {
         super.stop();
-        this.wolf.setSitting(false);
+        this.wolf.setInSittingPose(false);
     }
 
     public void tick() {
         super.tick();
-        this.wolf.setSitting(true);
+        if(hasReached()) {
+            this.wolf.getNavigation().stop();
+            this.wolf.setInSittingPose(true);
+        }
     }
 
     protected boolean isTargetPos(WorldView world, BlockPos pos) {

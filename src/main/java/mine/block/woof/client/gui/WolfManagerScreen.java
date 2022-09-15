@@ -9,6 +9,7 @@ import mine.block.woof.register.WoofRegistries;
 import mine.block.woof.server.WoofPackets;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
@@ -45,11 +46,14 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
 
     @Override
     protected void init() {
-        this.viewportBeginX = (int) ((this.width - this.height) * 0.45);
-        this.viewportEndX = (int) (this.width - (this.width - this.height) * 0.45) + 1;
+        this.viewportBeginX = (int) ((this.width - this.height) * 0.5);
+        this.viewportEndX = (int) (this.width - (this.width - this.height) * 0.5) + 1;
 
         this.leftAnchor.clearChildren();
         this.rightAnchor.clearChildren();
+        if(this.viewport != null) {
+            this.viewport.clearChildren();
+        }
 
             this.viewportEndX -= this.viewportBeginX;
             this.viewportBeginX = 0;
@@ -60,7 +64,7 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
 
             this.viewport = Containers.verticalFlow(Sizing.fixed(this.viewportEndX), Sizing.content(this.height));
 
-            this.viewport.child(Components.entity(Sizing.fixed(this.height), this.target).scale(Math.min(.5f / (target.getWidth() - 1), .5f / (target.getHeight() - 1))).allowMouseRotation(true).positioning(Positioning.relative(0, 0)));
+            this.viewport.child(Components.entity(Sizing.fixed(this.height), this.target).scaleToFit(true).allowMouseRotation(true).positioning(Positioning.relative(0, 0)));
 
             this.rightAnchor.child(
                     Containers.verticalScroll(Sizing.fill(100), Sizing.fill(100), Containers.verticalFlow(Sizing.content(), Sizing.content())
@@ -88,8 +92,12 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
     }
 
     @Override
-    protected void build(FlowLayout rootComponent) {
+    public void resize(MinecraftClient client, int width, int height) {
+        super.resize(client, width, height);
+    }
 
+    @Override
+    protected void build(FlowLayout rootComponent) {
         this.leftColumn.margins(Insets.top(20));
         this.rightColumn.margins(Insets.top(20));
 
@@ -128,10 +136,10 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
         leftColumn.child(Components.label(Text.literal("Here's some information on your dog!.")).maxWidth(maxWidth));
 
         leftColumn.child(Components.label(Text.literal("Preview")).horizontalTextAlignment(HorizontalAlignment.CENTER))
-                .child(Components.label(Text.literal("Statistics").formatted(Formatting.UNDERLINE)).horizontalTextAlignment(HorizontalAlignment.CENTER).margins(Insets.of(5, 2, 0, 0)))
+                .child(Components.label(Text.literal("Statistics").formatted(Formatting.UNDERLINE)).horizontalTextAlignment(HorizontalAlignment.CENTER))
                 .child(Components.label(Text.literal("Owner - " + ownerName)))
                 .child(Components.label(Text.literal("Collar Color - " + collarColor)))
-                .child(Components.label(Text.literal("Health - " + this.target.getHealth() + "/" + this.target.getMaxHealth()))).padding(Insets.of(3)).verticalAlignment(VerticalAlignment.CENTER).horizontalAlignment(HorizontalAlignment.CENTER);
+                .child(Components.label(Text.literal("Health - " + this.target.getHealth() + "/" + this.target.getMaxHealth()))).verticalAlignment(VerticalAlignment.CENTER).horizontalAlignment(HorizontalAlignment.CENTER);
 
         rootComponent.surface(Surface.VANILLA_TRANSLUCENT);
 //        rootComponent.child(Containers.draggable(Sizing.content(), Sizing.content(), Containers.verticalFlow(Sizing.content(), Sizing.content())
