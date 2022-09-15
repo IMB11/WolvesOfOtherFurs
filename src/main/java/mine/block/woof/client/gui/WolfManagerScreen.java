@@ -1,6 +1,5 @@
 package mine.block.woof.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.component.LabelComponent;
@@ -10,9 +9,6 @@ import mine.block.woof.register.WoofRegistries;
 import mine.block.woof.server.WoofPackets;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
@@ -21,11 +17,8 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
@@ -34,6 +27,8 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
     private final FlowLayout rightAnchor = Containers.verticalFlow(Sizing.content(), Sizing.content());
     private final FlowLayout leftColumn = Containers.verticalFlow(Sizing.fill(100), Sizing.content());
     private final FlowLayout rightColumn = Containers.verticalFlow(Sizing.fill(100), Sizing.content());
+
+    private FlowLayout viewport;
 
     private int viewportBeginX;
     private int viewportEndX;
@@ -50,19 +45,22 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
 
     @Override
     protected void init() {
-        this.viewportBeginX = (int) ((this.width - this.height) * 0.5);
-        this.viewportEndX = (int) (this.width - (this.width - this.height) * 0.5) + 1;
+        this.viewportBeginX = (int) ((this.width - this.height) * 0.45);
+        this.viewportEndX = (int) (this.width - (this.width - this.height) * 0.45) + 1;
 
         this.leftAnchor.clearChildren();
         this.rightAnchor.clearChildren();
 
-        if (this.viewportBeginX < 200) {
             this.viewportEndX -= this.viewportBeginX;
             this.viewportBeginX = 0;
             this.hasBothColumns = false;
 
             this.leftAnchor.horizontalSizing(Sizing.fixed(0)).verticalSizing(Sizing.fixed(this.height));
             this.rightAnchor.positioning(Positioning.absolute(viewportEndX, 0)).horizontalSizing(Sizing.fixed(this.width - this.viewportEndX)).verticalSizing(Sizing.fixed(this.height));
+
+            this.viewport = Containers.verticalFlow(Sizing.fixed(this.viewportEndX), Sizing.content(this.height));
+
+            this.viewport.child(Components.entity(Sizing.fixed(this.height), this.target).scale(Math.min(.5f / (target.getWidth() - 1), .5f / (target.getHeight() - 1))).allowMouseRotation(true).positioning(Positioning.relative(0, 0)));
 
             this.rightAnchor.child(
                     Containers.verticalScroll(Sizing.fill(100), Sizing.fill(100), Containers.verticalFlow(Sizing.content(), Sizing.content())
@@ -72,15 +70,6 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
                             .horizontalAlignment(HorizontalAlignment.CENTER))
 
             );
-        } else {
-            this.hasBothColumns = true;
-
-            this.leftAnchor.horizontalSizing(Sizing.fixed(viewportBeginX)).verticalSizing(Sizing.fixed(this.height));
-            this.rightAnchor.positioning(Positioning.absolute(viewportEndX, 0)).horizontalSizing(Sizing.fixed(viewportBeginX)).verticalSizing(Sizing.fixed(this.height));
-            this.leftAnchor.child(Containers.verticalScroll(Sizing.fill(100), Sizing.fill(100), this.leftColumn).padding(Insets.top(20)));
-            this.rightAnchor.child(Containers.verticalScroll(Sizing.fill(100), Sizing.fill(100), this.rightColumn).padding(Insets.top(20)));
-        }
-
         super.init();
     }
 
@@ -104,13 +93,16 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
         this.leftColumn.margins(Insets.top(20));
         this.rightColumn.margins(Insets.top(20));
 
+        int maxWidth = this.width - this.viewportEndX;
+
         rootComponent.child(leftAnchor.padding(Insets.left(10)).positioning(Positioning.absolute(0, 0)));
         rootComponent.child(rightAnchor.padding(Insets.left(10)));
+        rootComponent.child(viewport);
 
         sectionHeader(leftColumn, "Info", true);
         sectionHeader(rightColumn, "Tricks", true);
 
-        rightColumn.child(Components.label(Text.literal("Use these tricks to control your dog.")).margins(Insets.of(3)));
+        rightColumn.child(Components.label(Text.literal("Use these tricks to control your dog.")).maxWidth(maxWidth));
         rightColumn.child(
                 Containers.verticalScroll(
                         Sizing.content(),
@@ -133,7 +125,7 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
         String collarColor = this.target.getCollarColor().getName();
         collarColor = StringUtils.capitalize(collarColor);
 
-        leftColumn.child(Components.label(Text.literal("Here's some information on your dog!.")).margins(Insets.of(3)));
+        leftColumn.child(Components.label(Text.literal("Here's some information on your dog!.")).maxWidth(maxWidth));
 
         leftColumn.child(Components.label(Text.literal("Preview")).horizontalTextAlignment(HorizontalAlignment.CENTER))
                 .child(Components.label(Text.literal("Statistics").formatted(Formatting.UNDERLINE)).horizontalTextAlignment(HorizontalAlignment.CENTER).margins(Insets.of(5, 2, 0, 0)))
