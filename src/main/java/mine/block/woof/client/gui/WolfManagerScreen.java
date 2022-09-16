@@ -3,7 +3,8 @@ package mine.block.woof.client.gui;
 import io.wispforest.owo.ui.base.BaseOwoScreen;
 import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.component.LabelComponent;
-import io.wispforest.owo.ui.container.*;
+import io.wispforest.owo.ui.container.Containers;
+import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
 import mine.block.woof.register.WoofRegistries;
 import mine.block.woof.server.WoofPackets;
@@ -18,6 +19,8 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -28,7 +31,6 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
     private final FlowLayout rightAnchor = Containers.verticalFlow(Sizing.content(), Sizing.content());
     private final FlowLayout leftColumn = Containers.verticalFlow(Sizing.fill(100), Sizing.content());
     private final FlowLayout rightColumn = Containers.verticalFlow(Sizing.fill(100), Sizing.content());
-
     private FlowLayout viewport;
 
     private int viewportBeginX;
@@ -37,49 +39,6 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
 
     public WolfManagerScreen(WolfEntity target) {
         this.target = target;
-    }
-
-    @Override
-    protected @NotNull OwoUIAdapter<FlowLayout> createAdapter() {
-        return OwoUIAdapter.create(this, Containers::horizontalFlow);
-    }
-
-    @Override
-    protected void init() {
-        this.viewportBeginX = (int) ((this.width - this.height) * 0.5);
-        this.viewportEndX = (int) (this.width - (this.width - this.height) * 0.5) + 1;
-
-        this.leftAnchor.clearChildren();
-        this.rightAnchor.clearChildren();
-        if(this.viewport != null) {
-            this.viewport.clearChildren();
-        }
-
-            this.viewportEndX -= this.viewportBeginX;
-            this.viewportBeginX = 0;
-            this.hasBothColumns = false;
-
-            this.leftAnchor.horizontalSizing(Sizing.fixed(0)).verticalSizing(Sizing.fixed(this.height));
-            this.rightAnchor.positioning(Positioning.absolute(viewportEndX, 0)).horizontalSizing(Sizing.fixed(this.width - this.viewportEndX)).verticalSizing(Sizing.fixed(this.height));
-
-            this.viewport = Containers.verticalFlow(Sizing.fixed(this.viewportEndX), Sizing.content(this.height));
-
-            this.viewport.child(Components.entity(Sizing.fixed(this.height), this.target).scaleToFit(true).allowMouseRotation(true).positioning(Positioning.relative(0, 0)));
-
-            this.rightAnchor.child(
-                    Containers.verticalScroll(Sizing.fill(100), Sizing.fill(100), Containers.verticalFlow(Sizing.content(), Sizing.content())
-                            .child(leftColumn)
-                            .child(Components.box(Sizing.fill(85), Sizing.fixed(1)).color(Color.ofDye(DyeColor.GRAY)).fill(true).margins(Insets.top(15)))
-                            .child(rightColumn)
-                            .horizontalAlignment(HorizontalAlignment.CENTER))
-
-            );
-        super.init();
-    }
-
-    @Override
-    public boolean shouldPause() {
-        return false;
     }
 
     public static LabelComponent sectionHeader(FlowLayout container, String title, boolean separate) {
@@ -92,8 +51,52 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
     }
 
     @Override
-    public void resize(MinecraftClient client, int width, int height) {
-        super.resize(client, width, height);
+    protected @NotNull OwoUIAdapter<FlowLayout> createAdapter() {
+        return OwoUIAdapter.create(this, Containers::horizontalFlow);
+    }
+
+    @Override
+    protected void init() {
+        this.viewportBeginX = (int) ((this.width - this.height) * 0.45);
+        this.viewportEndX = (int) (this.width - (this.width - this.height) * 0.45) + 1;
+
+        this.leftAnchor.clearChildren();
+        this.rightAnchor.clearChildren();
+
+        this.viewportEndX -= this.viewportBeginX;
+        this.viewportBeginX = 0;
+        this.hasBothColumns = false;
+
+        this.leftAnchor.horizontalSizing(Sizing.fixed(0)).verticalSizing(Sizing.fixed(this.height));
+        this.rightAnchor.positioning(Positioning.absolute(viewportEndX, 0)).horizontalSizing(Sizing.fixed(this.width - this.viewportEndX)).verticalSizing(Sizing.fixed(this.height));
+
+        this.viewport = Containers.verticalFlow(Sizing.fixed(this.viewportEndX), Sizing.content(this.height));
+
+        this.viewport.child(Components.entity(Sizing.fixed(this.height), this.target).scaleToFit(true).allowMouseRotation(true).positioning(Positioning.relative(0, 0)));
+
+        this.rightAnchor.child(
+                Containers.verticalScroll(Sizing.fill(100), Sizing.fill(100), Containers.verticalFlow(Sizing.content(), Sizing.content())
+                        .child(leftColumn)
+                        .child(Components.box(Sizing.fill(85), Sizing.fixed(1)).color(Color.ofDye(DyeColor.GRAY)).fill(true).margins(Insets.top(15)))
+                        .child(rightColumn)
+                        .horizontalAlignment(HorizontalAlignment.CENTER))
+
+        );
+
+        GLFW.glfwSetWindowAttrib(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_RESIZABLE, GLFW.GLFW_FALSE);
+
+        super.init();
+    }
+
+    @Override
+    public boolean shouldPause() {
+        return false;
+    }
+
+    @Override
+    public void close() {
+        GLFW.glfwSetWindowAttrib(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE);
+        super.close();
     }
 
     @Override
@@ -133,13 +136,13 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
         String collarColor = this.target.getCollarColor().getName();
         collarColor = StringUtils.capitalize(collarColor);
 
-        leftColumn.child(Components.label(Text.literal("Here's some information on your dog!.")).maxWidth(maxWidth));
+        leftColumn.child(Components.label(Text.literal("Here's some information on your dog!")).maxWidth(maxWidth));
 
         leftColumn.child(Components.label(Text.literal("Preview")).horizontalTextAlignment(HorizontalAlignment.CENTER))
-                .child(Components.label(Text.literal("Statistics").formatted(Formatting.UNDERLINE)).horizontalTextAlignment(HorizontalAlignment.CENTER))
+                .child(Components.label(Text.literal("Statistics").formatted(Formatting.UNDERLINE)).horizontalTextAlignment(HorizontalAlignment.CENTER).margins(Insets.of(5, 2, 0, 0)))
                 .child(Components.label(Text.literal("Owner - " + ownerName)))
                 .child(Components.label(Text.literal("Collar Color - " + collarColor)))
-                .child(Components.label(Text.literal("Health - " + this.target.getHealth() + "/" + this.target.getMaxHealth()))).verticalAlignment(VerticalAlignment.CENTER).horizontalAlignment(HorizontalAlignment.CENTER);
+                .child(Components.label(Text.literal("Health - " + this.target.getHealth() + "/" + this.target.getMaxHealth()))).padding(Insets.of(3)).verticalAlignment(VerticalAlignment.CENTER).horizontalAlignment(HorizontalAlignment.CENTER);
 
         rootComponent.surface(Surface.VANILLA_TRANSLUCENT);
 //        rootComponent.child(Containers.draggable(Sizing.content(), Sizing.content(), Containers.verticalFlow(Sizing.content(), Sizing.content())

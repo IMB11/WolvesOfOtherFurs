@@ -13,6 +13,7 @@ public class SitCommand implements DogCommand {
     public void run(NbtCompound context, ServerWorld world, PlayerEntity master, WolfEntity target) {
         target.clearGoalsAndTasks();
         target.setSitting(true);
+        target.setInSittingPose(true);
     }
 
     @Override
