@@ -116,11 +116,7 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
         sectionHeader(rightColumn, "Tricks");
 
         rightColumn.child(Components.label(Text.literal("Use these tricks to control your dog.")).horizontalTextAlignment(HorizontalAlignment.CENTER).maxWidth(maxWidth-5));
-        rightColumn.child(
-                Containers.verticalScroll(
-                        Sizing.content(),
-                        Sizing.fill(100),
-                        Components.list(
+        rightColumn.child(Components.list(
                                 new ArrayList<>(WoofRegistries.DOG_COMMAND_REGISTRY.keySet()),
                                 flowLayout -> {},
                                 (Identifier identifier) -> {
@@ -139,7 +135,7 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
                                     return buttone;
                                 },
                                 true)
-                ).padding(Insets.of(4)).alignment(HorizontalAlignment.CENTER, VerticalAlignment.CENTER));
+                .padding(Insets.of(4)).alignment(HorizontalAlignment.CENTER, VerticalAlignment.CENTER));
 
         String ownerName = Objects.requireNonNull(this.target.getOwner()).getEntityName();
         String collarColor = this.target.getCollarColor().getName();
@@ -150,7 +146,7 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
         leftColumn.child(Components.label(Text.literal("Statistics").formatted(Formatting.UNDERLINE)).horizontalTextAlignment(HorizontalAlignment.CENTER).margins(Insets.of(5, 2, 0, 0)))
                 .child(Components.label(Text.literal("Owner - " + ownerName)))
                 .child(Components.label(Text.literal("Collar Color - " + collarColor)))
-                .child(Components.label(Text.literal("Health - " + this.target.getHealth() + "/" + this.target.getMaxHealth()))).padding(Insets.of(3)).verticalAlignment(VerticalAlignment.CENTER).horizontalAlignment(HorizontalAlignment.CENTER);
+                .child(Components.label(Text.literal("Health - " + this.target.getHealth() + "/" + this.target.getMaxHealth()))).padding(Insets.of(3, 3, 3, 10)).verticalAlignment(VerticalAlignment.CENTER).horizontalAlignment(HorizontalAlignment.CENTER);
 
         rootComponent.surface(Surface.VANILLA_TRANSLUCENT);
 //        rootComponent.child(Containers.draggable(Sizing.content(), Sizing.content(), Containers.verticalFlow(Sizing.content(), Sizing.content())
