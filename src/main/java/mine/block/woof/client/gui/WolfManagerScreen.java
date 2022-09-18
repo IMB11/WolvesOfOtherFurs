@@ -43,9 +43,9 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
         this.target = target;
     }
 
-    public static LabelComponent sectionHeader(FlowLayout container, String title, boolean separate) {
-        final var label = Components.label(Text.of(title)).shadow(true);
-        if (separate) label.margins(Insets.top(20));
+    public static LabelComponent sectionHeader(FlowLayout container, String title) {
+        final var label = Components.label(Text.of(title)).shadow(true).horizontalTextAlignment(HorizontalAlignment.CENTER);
+        label.margins(Insets.top(20));
         label.margins(label.margins().get().withBottom(5));
 
         container.child(label);
@@ -108,18 +108,18 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
 
         int maxWidth = this.width - this.viewportEndX;
 
-        rootComponent.child(leftAnchor.padding(Insets.left(10)).positioning(Positioning.absolute(0, 0)));
-        rootComponent.child(rightAnchor.padding(Insets.left(10)));
+        rootComponent.child(leftAnchor.padding(Insets.left(8)));
+        rootComponent.child(rightAnchor.padding(Insets.left(8)));
         rootComponent.child(viewport);
 
-        sectionHeader(leftColumn, "Info", true);
-        sectionHeader(rightColumn, "Tricks", true);
+        sectionHeader(leftColumn, "Info");
+        sectionHeader(rightColumn, "Tricks");
 
-        rightColumn.child(Components.label(Text.literal("Use these tricks to control your dog.")).maxWidth(maxWidth));
+        rightColumn.child(Components.label(Text.literal("Use these tricks to control your dog.")).horizontalTextAlignment(HorizontalAlignment.CENTER).maxWidth(maxWidth-5));
         rightColumn.child(
                 Containers.verticalScroll(
                         Sizing.content(),
-                        Sizing.fill(50),
+                        Sizing.fill(100),
                         Components.list(
                                 new ArrayList<>(WoofRegistries.DOG_COMMAND_REGISTRY.keySet()),
                                 flowLayout -> {},
@@ -139,17 +139,15 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
                                     return buttone;
                                 },
                                 true)
-                ).padding(Insets.of(4)).margins(Insets.left(15))
-        );
+                ).padding(Insets.of(4)).alignment(HorizontalAlignment.CENTER, VerticalAlignment.CENTER));
 
         String ownerName = Objects.requireNonNull(this.target.getOwner()).getEntityName();
         String collarColor = this.target.getCollarColor().getName();
         collarColor = StringUtils.capitalize(collarColor);
 
-        leftColumn.child(Components.label(Text.literal("Here's some information on your dog!")).maxWidth(maxWidth));
+        leftColumn.child(Components.label(Text.literal("Here's some information on your dog!")).horizontalTextAlignment(HorizontalAlignment.CENTER).maxWidth(maxWidth-10));
 
-        leftColumn.child(Components.label(Text.literal("Preview")).horizontalTextAlignment(HorizontalAlignment.CENTER))
-                .child(Components.label(Text.literal("Statistics").formatted(Formatting.UNDERLINE)).horizontalTextAlignment(HorizontalAlignment.CENTER).margins(Insets.of(5, 2, 0, 0)))
+        leftColumn.child(Components.label(Text.literal("Statistics").formatted(Formatting.UNDERLINE)).horizontalTextAlignment(HorizontalAlignment.CENTER).margins(Insets.of(5, 2, 0, 0)))
                 .child(Components.label(Text.literal("Owner - " + ownerName)))
                 .child(Components.label(Text.literal("Collar Color - " + collarColor)))
                 .child(Components.label(Text.literal("Health - " + this.target.getHealth() + "/" + this.target.getMaxHealth()))).padding(Insets.of(3)).verticalAlignment(VerticalAlignment.CENTER).horizontalAlignment(HorizontalAlignment.CENTER);
