@@ -141,18 +141,15 @@ public abstract class WolfEntityMixin extends TameableEntity {
         BlockPos pos = this.getBlockPos();
         RegistryEntry<Biome> biome = this.getEntityWorld().getBiome(pos);
 
-        if(biome.isIn(ConventionalBiomeTags.SNOWY)) {
-            this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.SNOWY);
-        } else if(biome.isIn(ConventionalBiomeTags.TAIGA)) {
-            this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.TAIGA);
-        } else if(biome.isIn(ConventionalBiomeTags.MOUNTAIN) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_PEAK) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_SLOPE)) {
-            this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.MOUNTAIN);
-        } else if (biome.isIn(ConventionalBiomeTags.DESERT) || biome.isIn(ConventionalBiomeTags.BADLANDS) || biome.isIn(ConventionalBiomeTags.SAVANNA) || biome.isIn(ConventionalBiomeTags.JUNGLE)) {
-            this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.DESERT);
-        } else {
-            this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.DEFAULT);
+        for (SkinType value : SkinType.values()) {
+            if(value == SkinType.DEFAULT) continue;
+            if(value.getSpawnConditions().apply(biome)) {
+                this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, value);
+                return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+            }
         }
 
+        this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.DEFAULT);
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 

@@ -35,7 +35,9 @@ public class Woof implements ModInitializer {
                     || biome.isIn(ConventionalBiomeTags.MOUNTAIN_PEAK)
                     || biome.isIn(ConventionalBiomeTags.MOUNTAIN_SLOPE)
                     || biome.isIn(ConventionalBiomeTags.SNOWY)
-                    || biome.isIn(ConventionalBiomeTags.TAIGA);
+                    || biome.isIn(ConventionalBiomeTags.TAIGA)
+                    || biome.matchesId(new Identifier("soul_sand_valley"))
+                    || biome.isIn(ConventionalBiomeTags.SWAMP);
         }, SpawnGroup.CREATURE, EntityType.WOLF, 5, 1, 2);
     }
 }
