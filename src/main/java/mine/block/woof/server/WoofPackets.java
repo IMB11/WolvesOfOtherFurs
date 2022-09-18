@@ -5,17 +5,11 @@ import mine.block.woof.commands.DogCommand;
 import mine.block.woof.register.WoofRegistries;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -35,7 +29,7 @@ public class WoofPackets extends MinelibPacketManager {
                 if(entity instanceof WolfEntity wolfEntity) {
                     DogCommand command = WoofRegistries.DOG_COMMAND_REGISTRY.get(commandID);
                     if(command != null) {
-                        command.run(nbt, world, player, wolfEntity);
+                        command.runServer(nbt, world, player, wolfEntity);
                         break;
                     }
                 }

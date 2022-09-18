@@ -6,11 +6,13 @@ import io.wispforest.owo.ui.component.LabelComponent;
 import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
+import mine.block.woof.commands.DogCommand;
 import mine.block.woof.register.WoofRegistries;
 import mine.block.woof.server.WoofPackets;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
@@ -121,13 +123,21 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
                         Components.list(
                                 new ArrayList<>(WoofRegistries.DOG_COMMAND_REGISTRY.keySet()),
                                 flowLayout -> {},
-                                (Identifier identifier) -> Components.button(Text.translatable(identifier.toTranslationKey()), button -> {
-                                    NbtCompound compound = new NbtCompound();
-                                    compound.putUuid("wolfUUID", target.getUuid());
-                                    compound.putString("command", identifier.getPath());
-                                    ClientPlayNetworking.send(WoofPackets.SEND_DOG_COMMAND.ID, PacketByteBufs.create().writeNbt(compound));
-                                    this.close();
-                                }).margins(Insets.horizontal(3)).horizontalSizing(Sizing.fill(75)),
+                                (Identifier identifier) -> {
+                                    DogCommand command = WoofRegistries.DOG_COMMAND_REGISTRY.get(identifier);
+                                    Component buttone = Components.button(command.getText(), button -> {
+                                        NbtCompound compound = new NbtCompound();
+                                        compound.putUuid("wolfUUID", target.getUuid());
+                                        compound.putString("command", identifier.getPath());
+                                        command.runClient(compound, this.target);
+                                        ClientPlayNetworking.send(WoofPackets.SEND_DOG_COMMAND.ID, PacketByteBufs.create().writeNbt(compound));
+                                        this.close();
+                                    }).margins(Insets.horizontal(3)).horizontalSizing(Sizing.fill(75));
+                                    if(command.getTooltip() != null) {
+                                        buttone = buttone.tooltip(command.getTooltip());
+                                    }
+                                    return buttone;
+                                },
                                 true)
                 ).padding(Insets.of(4)).margins(Insets.left(15))
         );

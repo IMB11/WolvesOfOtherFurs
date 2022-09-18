@@ -17,12 +17,12 @@ public class PetCommand implements DogCommand {
     private final Random random = new Random();
 
     @Override
-    public void run(NbtCompound context, ServerWorld world, PlayerEntity master, WolfEntity target) {
+    public void runServer(NbtCompound context, ServerWorld world, PlayerEntity master, WolfEntity target) {
         if(target.getHealth() < (1f/2f * target.getMaxHealth())) {
-            world.playSound(target.getX(), target.getY(), target.getZ(), SoundEvents.ENTITY_WOLF_GROWL, SoundCategory.NEUTRAL, 1f, 1f, false);
+            target.playSound(SoundEvents.ENTITY_WOLF_GROWL,1f, 1f);
             showEmoteParticle(false, world, target);
         } else {
-            world.playSound(target.getX(), target.getY(), target.getZ(), SoundEvents.ENTITY_WOLF_WHINE, SoundCategory.NEUTRAL, 1f, 1f, false);
+            target.playSound(SoundEvents.ENTITY_WOLF_WHINE, 1f, 1f);
             showEmoteParticle(true, world, target);
         }
     }
