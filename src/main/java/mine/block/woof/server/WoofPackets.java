@@ -40,9 +40,4 @@ public class WoofPackets extends MinelibPacketManager {
     public WoofPackets(String id, @Nullable EnvType envType, ServerPlayNetworking.@Nullable PlayChannelHandler serverAction, ClientPlayNetworking.@Nullable PlayChannelHandler clientAction) {
         super(id, envType, serverAction, clientAction);
     }
-
-    @Override
-    public Logger getLogger() {
-        return LoggerFactory.getLogger("WOOF-" + this.ID.getPath());
-    }
 }
