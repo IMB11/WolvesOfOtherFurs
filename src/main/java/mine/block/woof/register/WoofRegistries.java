@@ -19,7 +19,6 @@ public class WoofRegistries {
     public static void initialize() {
         WoofBlocks.init();
         WoofItems.init();
-        VariantRegistry.init();
 
         DogCommand[] dogCommands = new DogCommand[] {new GoAwayCommand(), new PetCommand(), new BarkCommand(), new HowlCommand(), new JumpCommand()};
 
