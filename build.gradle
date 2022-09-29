@@ -1,7 +1,6 @@
 plugins {
     id 'fabric-loom' version '1.0-SNAPSHOT'
     id 'maven-publish'
-    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 version = project.mod_version
@@ -18,26 +17,6 @@ loom {
     accessWidenerPath = file("src/main/resources/woof.accesswidener")
 }
 
-shadowJar {
-    relocate 'org.reflections', 'mine.block.relocation.org.reflections'
-    configurations = [project.configurations.shadow]
-    classifier = "shadow"
-    destinationDirectory.set(layout.buildDirectory.dir('devlibs'))
-}
-
-import com.github.jengelman.gradle.plugins.shadow.tasks.ConfigureShadowRelocation
-
-task relocateShadowJar(type: ConfigureShadowRelocation) {
-    target = tasks.shadowJar
-    prefix = "${project.group}.${project.archivesBaseName}.shadow"
-}
-tasks.shadowJar.dependsOn tasks.relocateShadowJar
-
-remapJar {
-    dependsOn shadowJar
-    inputFile.set(tasks.shadowJar.archiveFile)
-}
-
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -50,9 +29,6 @@ dependencies {
     modImplementation("mine.block:mine11lib:${project.lib11_version}")
 
     include implementation("com.github.LlamaLad7:MixinExtras:0.0.12")
-
-    implementation 'org.reflections:reflections:0.10.2'
-    shadow 'org.reflections:reflections:0.10.2'
 
     annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.12")
 

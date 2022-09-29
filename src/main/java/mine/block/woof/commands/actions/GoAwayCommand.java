@@ -18,9 +18,6 @@ public class GoAwayCommand implements DogCommand {
         target.playSound(SoundEvents.ENTITY_WOLF_WHINE, 1f, 1f);
         target.setTamed(false);
         target.setOwnerUuid(null);
-        boolean status = !target.isSitting();
-        target.setSitting(status);
-        target.setInSittingPose(status);
         target.getNavigation().stop();
         target.clearGoalsAndTasks();
     }
@@ -28,8 +25,6 @@ public class GoAwayCommand implements DogCommand {
     @Override
     public void runClient(NbtCompound context, WolfEntity target) {
         boolean status = !target.isSitting();
-        target.setSitting(status);
-        target.setInSittingPose(status);
     }
 
     @Override

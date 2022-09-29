@@ -8,7 +8,8 @@
     "WolfEntityMixin"
   ],
   "client": [
-    "WolfEntityRendererMixin"
+    "WolfEntityRendererMixin",
+    "client.ClientWolfEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -5,6 +5,8 @@ import mine.block.woof.client.gui.WolfManagerScreen;
 import mine.block.woof.entity.DogEatOutBowlGoal;
 import mine.block.woof.entity.DogSitOnBlockGoal;
 import mine.block.woof.entity.WolfDataTracker;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.*;
@@ -48,13 +50,6 @@ public abstract class WolfEntityMixin extends TameableEntity {
     @Inject(method = "<init>", at = @At("TAIL"))
     public void init_InjectTail(EntityType entityType, World world, CallbackInfo ci) {
         this.setCanPickUpLoot(true);
-    }
-
-    @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
-    public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        if(player.isSneaking() && this.getOwnerUuid() == player.getUuid() && player.getStackInHand(hand).isEmpty() && player.world.isClient) {
-            MinecraftClient.getInstance().setScreen(new WolfManagerScreen((WolfEntity)(Object)this));
-        }
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"))
