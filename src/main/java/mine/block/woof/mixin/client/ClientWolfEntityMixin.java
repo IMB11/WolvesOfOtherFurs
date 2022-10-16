@@ -20,7 +20,7 @@ public abstract class ClientWolfEntityMixin implements Tameable {
     public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if(player.isSneaking() && this.getOwnerUuid() == player.getUuid() && player.getStackInHand(hand).isEmpty() && player.world.isClient) {
             MinecraftClient.getInstance().setScreen(new WolfManagerScreen((WolfEntity)(Object)this));
-            cir.cancel();
+            cir.setReturnValue(ActionResult.PASS);
         }
     }
 }
