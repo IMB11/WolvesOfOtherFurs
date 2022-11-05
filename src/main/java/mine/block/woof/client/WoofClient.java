@@ -25,13 +25,13 @@ public class WoofClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-            if(stack.getItem() instanceof DyeableItem leadDye) {
+            if (stack.getItem() instanceof DyeableItem leadDye) {
                 return leadDye.getColor(stack);
             } else return DyeColor.WHITE.getMapColor().color;
         }, Items.LEAD);
 
         LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, context) -> {
-            if(entityRenderer instanceof WolfEntityRenderer) {
+            if (entityRenderer instanceof WolfEntityRenderer) {
                 registrationHelper.register(new WolfModRenderLayer((FeatureRendererContext<WolfEntity, WolfEntityModel<WolfEntity>>) entityRenderer));
             }
         });

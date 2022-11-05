@@ -26,12 +26,12 @@ public class WolfModRenderLayer extends FeatureRenderer<WolfEntity, WolfEntityMo
 
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, WolfEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        if(entity.isFurWet()) {
+        if (entity.isFurWet()) {
             float blueModifier = Math.min(0.5F + MathHelper.lerp(tickDelta, entity.lastShakeProgress, entity.shakeProgress) / 2.0F * 0.5F, 1.0F);
             this.getContextModel().setColorMultiplier(blueModifier, blueModifier, blueModifier);
         }
 
-        if(this.getContextModel() instanceof ModelWithHead) {
+        if (this.getContextModel() instanceof ModelWithHead) {
             boolean flag1 = entity.isBaby();
             matrices.push();
             if (flag1) {

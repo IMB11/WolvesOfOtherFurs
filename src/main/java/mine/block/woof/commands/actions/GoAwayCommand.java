@@ -7,7 +7,6 @@
 package mine.block.woof.commands.actions;
 
 import mine.block.woof.commands.DogCommand;
-import mine.block.woof.mixin.WolfEntityMixin;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;

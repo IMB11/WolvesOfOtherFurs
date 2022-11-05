@@ -6,10 +6,8 @@
 
 package mine.block.woof.mixin;
 
-import mine.block.woof.SkinType;
 import mine.block.woof.api.Variant;
 import mine.block.woof.api.WoofAPI;
-import mine.block.woof.entity.WolfDataTracker;
 import mine.block.woof.entity.WolfVariantTracker;
 import net.minecraft.client.render.entity.WolfEntityRenderer;
 import net.minecraft.entity.passive.WolfEntity;
@@ -30,7 +28,7 @@ public class WolfEntityRendererMixin {
 
     private Identifier getTexture(WolfEntity entity, Identifier type) {
         Variant variant = WoofAPI.VARIANT_REGISTRY.get(type);
-        if(variant == null) return new Identifier("null");
+        if (variant == null) return new Identifier("null");
         if (entity.isTamed()) {
             return variant.getTameTexture();
         } else {

@@ -6,7 +6,10 @@
 
 package mine.block.woof.register.block;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.function.BooleanBiFunction;
@@ -21,6 +24,18 @@ import java.util.stream.Stream;
 public class DogBedBlock extends HorizontalFacingBlock {
     public DogBedBlock(Settings settings) {
         super(settings);
+    }
+
+    public static VoxelShape rotateShape(Direction to, VoxelShape shape) {
+        VoxelShape[] buffer = new VoxelShape[]{shape, VoxelShapes.empty()};
+        int times = (to.getHorizontal() - Direction.NORTH.getHorizontal() + 4) % 4;
+        for (int i = 0; i < times; i++) {
+            buffer[0].forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> buffer[1] = VoxelShapes.union(buffer[1], VoxelShapes.cuboid(1 - maxZ, minY, minX, 1 - minZ, maxY, maxX)));
+            buffer[0] = buffer[1];
+            buffer[1] = VoxelShapes.empty();
+        }
+
+        return buffer[0];
     }
 
     @Override
@@ -43,17 +58,5 @@ public class DogBedBlock extends HorizontalFacingBlock {
                 Block.createCuboidShape(2, 0, 0, 14, 2, 2),
                 Block.createCuboidShape(2, 0, 2, 14, 0.5, 14)
         ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get());
-    }
-
-    public static VoxelShape rotateShape(Direction to, VoxelShape shape) {
-        VoxelShape[] buffer = new VoxelShape[]{ shape, VoxelShapes.empty() };
-        int times = (to.getHorizontal() - Direction.NORTH.getHorizontal() + 4) % 4;
-        for (int i = 0; i < times; i++) {
-            buffer[0].forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> buffer[1] = VoxelShapes.union(buffer[1], VoxelShapes.cuboid(1-maxZ, minY, minX, 1-minZ, maxY, maxX)));
-            buffer[0] = buffer[1];
-            buffer[1] = VoxelShapes.empty();
-        }
-
-        return buffer[0];
     }
 }

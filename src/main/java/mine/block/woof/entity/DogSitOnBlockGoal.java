@@ -42,7 +42,7 @@ public class DogSitOnBlockGoal extends MoveToTargetPosGoal implements WoofDogGoa
 
     public void tick() {
         super.tick();
-        if(hasReached()) {
+        if (hasReached()) {
             this.wolf.getNavigation().stop();
             this.wolf.setInSittingPose(true);
         }

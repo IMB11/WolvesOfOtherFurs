@@ -19,7 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldView;
 
 public class DogEatOutBowlGoal extends MoveToTargetPosGoal implements WoofDogGoal {
-    private TameableEntity wolf;
+    private final TameableEntity wolf;
 
     public DogEatOutBowlGoal(WolfEntity mob, double speed) {
         super(mob, speed, 16);
@@ -34,8 +34,8 @@ public class DogEatOutBowlGoal extends MoveToTargetPosGoal implements WoofDogGoa
     @Override
     public void tick() {
         super.tick();
-        if(hasReached()) {
-            if(!wolf.getWorld().getBlockState(targetPos).isOf(WoofBlocks.DOG_BOWL_BLOCK)) return;
+        if (hasReached()) {
+            if (!wolf.getWorld().getBlockState(targetPos).isOf(WoofBlocks.DOG_BOWL_BLOCK)) return;
             BlockState state = wolf.getWorld().getBlockState(targetPos).with(DogBowlBlock.FILLED, false);
             wolf.getWorld().setBlockState(targetPos, state);
             wolf.getWorld().playSound(wolf.getX(), wolf.getY(), wolf.getZ(), SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.NEUTRAL, 1f, 1f, true);

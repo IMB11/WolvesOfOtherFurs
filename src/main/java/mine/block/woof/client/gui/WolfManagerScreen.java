@@ -18,7 +18,6 @@ import mine.block.woof.server.WoofPackets;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
@@ -28,7 +27,6 @@ import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -121,33 +119,34 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
         sectionHeader(leftColumn, "Info");
         sectionHeader(rightColumn, "Tricks");
 
-        rightColumn.child(Components.label(Text.literal("Use these tricks to control your dog.")).horizontalTextAlignment(HorizontalAlignment.CENTER).maxWidth(maxWidth-5));
+        rightColumn.child(Components.label(Text.literal("Use these tricks to control your dog.")).horizontalTextAlignment(HorizontalAlignment.CENTER).maxWidth(maxWidth - 5));
         rightColumn.child(Components.list(
-                                new ArrayList<>(WoofRegistries.DOG_COMMAND_REGISTRY.keySet()),
-                                flowLayout -> {},
-                                (Identifier identifier) -> {
-                                    DogCommand command = WoofRegistries.DOG_COMMAND_REGISTRY.get(identifier);
-                                    Component buttone = Components.button(command.getText(), button -> {
-                                        NbtCompound compound = new NbtCompound();
-                                        compound.putUuid("wolfUUID", target.getUuid());
-                                        compound.putString("command", identifier.getPath());
-                                        command.runClient(compound, this.target);
-                                        ClientPlayNetworking.send(WoofPackets.SEND_DOG_COMMAND.ID, PacketByteBufs.create().writeNbt(compound));
-                                        this.close();
-                                    }).margins(Insets.horizontal(3)).horizontalSizing(Sizing.fill(75));
-                                    if(command.getTooltip() != null) {
-                                        buttone = buttone.tooltip(command.getTooltip());
-                                    }
-                                    return buttone;
-                                },
-                                true)
+                        new ArrayList<>(WoofRegistries.DOG_COMMAND_REGISTRY.keySet()),
+                        flowLayout -> {
+                        },
+                        (Identifier identifier) -> {
+                            DogCommand command = WoofRegistries.DOG_COMMAND_REGISTRY.get(identifier);
+                            Component buttone = Components.button(command.getText(), button -> {
+                                NbtCompound compound = new NbtCompound();
+                                compound.putUuid("wolfUUID", target.getUuid());
+                                compound.putString("command", identifier.getPath());
+                                command.runClient(compound, this.target);
+                                ClientPlayNetworking.send(WoofPackets.SEND_DOG_COMMAND.ID, PacketByteBufs.create().writeNbt(compound));
+                                this.close();
+                            }).margins(Insets.horizontal(3)).horizontalSizing(Sizing.fill(75));
+                            if (command.getTooltip() != null) {
+                                buttone = buttone.tooltip(command.getTooltip());
+                            }
+                            return buttone;
+                        },
+                        true)
                 .padding(Insets.of(4)).alignment(HorizontalAlignment.CENTER, VerticalAlignment.CENTER));
 
         String ownerName = Objects.requireNonNull(this.target.getOwner()).getEntityName();
         String collarColor = this.target.getCollarColor().getName();
         collarColor = StringUtils.capitalize(collarColor);
 
-        leftColumn.child(Components.label(Text.literal("Here's some information on your dog!")).horizontalTextAlignment(HorizontalAlignment.CENTER).maxWidth(maxWidth-10));
+        leftColumn.child(Components.label(Text.literal("Here's some information on your dog!")).horizontalTextAlignment(HorizontalAlignment.CENTER).maxWidth(maxWidth - 10));
 
         leftColumn.child(Components.label(Text.literal("Statistics").formatted(Formatting.UNDERLINE)).horizontalTextAlignment(HorizontalAlignment.CENTER).margins(Insets.of(5, 2, 0, 0)))
                 .child(Components.label(Text.literal("Owner - " + ownerName)))

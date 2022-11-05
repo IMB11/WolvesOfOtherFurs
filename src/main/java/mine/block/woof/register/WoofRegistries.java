@@ -23,11 +23,7 @@ import mine.block.woof.register.block.WoofBlocks;
 import mine.block.woof.register.item.WoofItems;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.passive.WolfEntity;
-import net.minecraft.tag.BiomeTags;
-import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.biome.Biome;
 
 import java.util.HashMap;
 
@@ -41,7 +37,7 @@ public class WoofRegistries {
         TrackedDataHandlerRegistry.register(WolfDataTracker.SKIN_TYPE_TRACKER_ENUM);
         TrackedDataHandlerRegistry.register(WolfVariantTracker.VARIANT_TRACKER);
 
-        DogCommand[] dogCommands = new DogCommand[] {new GoAwayCommand(), new PetCommand(), new BarkCommand(), new HowlCommand(), new JumpCommand()};
+        DogCommand[] dogCommands = new DogCommand[]{new GoAwayCommand(), new PetCommand(), new BarkCommand(), new HowlCommand(), new JumpCommand()};
 
         for (DogCommand dogCommand : dogCommands) {
             DOG_COMMAND_REGISTRY.put(dogCommand.getID(), dogCommand);

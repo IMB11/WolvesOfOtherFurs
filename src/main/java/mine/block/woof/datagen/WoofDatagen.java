@@ -22,36 +22,37 @@ import java.util.Map;
 
 public class WoofDatagen implements ModInitializer {
     public static final RuntimeResourcePack RESOURCE_PACK = RuntimeResourcePack.create("woof:arrp");
+
     @Override
     public void onInitialize() {
         for (Map.Entry<String, Block> value : WoofBlocks.DOG_BEDS.entrySet()) {
-            if(!value.getKey().equals("White")) {
+            if (!value.getKey().equals("White")) {
                 RESOURCE_PACK.addModel(JModel.model("woof:block/dog_bed")
                                 .textures(JModel.textures().var("1", "block/" + value.getKey() + "_wool")),
                         new Identifier("woof:block/" + value.getKey() + "_dog_bed")
                 );
 
                 RESOURCE_PACK.addAsset(new Identifier("woof:blockstates/" + value.getKey() + "_dog_bed.json"), String.format("""
-                    {
-                      "variants": {
-                        "facing=north": {
-                          "model": "woof:block/%s_dog_bed",
-                          "y": 180
-                        },
-                        "facing=east": {
-                          "model": "woof:block/%s_dog_bed",
-                          "y": 270
-                        },
-                        "facing=south": {
-                          "model": "woof:block/%s_dog_bed"
-                        },
-                        "facing=west": {
-                          "model": "woof:block/%s_dog_bed",
-                          "y": 90
+                        {
+                          "variants": {
+                            "facing=north": {
+                              "model": "woof:block/%s_dog_bed",
+                              "y": 180
+                            },
+                            "facing=east": {
+                              "model": "woof:block/%s_dog_bed",
+                              "y": 270
+                            },
+                            "facing=south": {
+                              "model": "woof:block/%s_dog_bed"
+                            },
+                            "facing=west": {
+                              "model": "woof:block/%s_dog_bed",
+                              "y": 90
+                            }
+                          }
                         }
-                      }
-                    }
-                    """, value.getKey(), value.getKey(), value.getKey(), value.getKey()).getBytes(StandardCharsets.UTF_8));
+                        """, value.getKey(), value.getKey(), value.getKey(), value.getKey()).getBytes(StandardCharsets.UTF_8));
             }
 
             RESOURCE_PACK.addLootTable(new Identifier("woof:block/" + value.getKey() + "_dog_bed"), JLootTable.loot("minecraft:block")
@@ -65,14 +66,14 @@ public class WoofDatagen implements ModInitializer {
             RESOURCE_PACK.addModel(JModel.model().parent("woof:block/" + value.getKey() + "_dog_bed"), new Identifier("woof:item/" + value.getKey() + "_dog_bed"));
 
             RESOURCE_PACK.addRecipe(new Identifier("woof:" + value.getKey() + "_dog_bed"), JRecipe.shaped(JPattern.pattern(
-                    "   ",
-                    "S_S",
-                    "BBB"
-            ), JKeys.keys()
-                    .key("S", JIngredient.ingredient().tag("minecraft:wooden_slabs"))
-                    .key("B", JIngredient.ingredient().tag("minecraft:planks"))
-                    .key("_", JIngredient.ingredient().item("minecraft:" + value.getKey() + "_carpet")),
-                    JResult.result("woof:" + value.getKey() + "_dog_bed"))
+                                    "   ",
+                                    "S_S",
+                                    "BBB"
+                            ), JKeys.keys()
+                                    .key("S", JIngredient.ingredient().tag("minecraft:wooden_slabs"))
+                                    .key("B", JIngredient.ingredient().tag("minecraft:planks"))
+                                    .key("_", JIngredient.ingredient().item("minecraft:" + value.getKey() + "_carpet")),
+                            JResult.result("woof:" + value.getKey() + "_dog_bed"))
             );
         }
 

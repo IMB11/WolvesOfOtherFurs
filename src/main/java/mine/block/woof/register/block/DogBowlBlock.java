@@ -7,7 +7,9 @@
 package mine.block.woof.register.block;
 
 import mine.block.woof.Woof;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -39,7 +41,7 @@ public class DogBowlBlock extends Block {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(player.getStackInHand(hand).isIn(Woof.MEATS)) {
+        if (player.getStackInHand(hand).isIn(Woof.MEATS)) {
             world.setBlockState(pos, state.with(FILLED, true));
             player.getStackInHand(hand).decrement(1);
             return ActionResult.SUCCESS;

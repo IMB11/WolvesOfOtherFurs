@@ -17,6 +17,7 @@ import net.minecraft.network.PacketByteBuf;
 public class WolfDataTracker implements TrackedDataHandler<SkinType> {
     public static final WolfDataTracker SKIN_TYPE_TRACKER_ENUM = new WolfDataTracker();
     public static TrackedData<SkinType> WOLF_SKIN_TYPE = DataTracker.registerData(WolfEntity.class, SKIN_TYPE_TRACKER_ENUM);
+
     @Override
     public void write(PacketByteBuf buf, SkinType value) {
         buf.writeEnumConstant(value);

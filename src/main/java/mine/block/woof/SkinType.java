@@ -6,7 +6,6 @@
 
 package mine.block.woof;
 
-import net.fabricmc.fabric.api.biome.v1.BiomeModificationContext;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;

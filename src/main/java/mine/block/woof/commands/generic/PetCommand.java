@@ -13,7 +13,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 
@@ -24,8 +23,8 @@ public class PetCommand implements DogCommand {
 
     @Override
     public void runServer(NbtCompound context, ServerWorld world, PlayerEntity master, WolfEntity target) {
-        if(target.getHealth() < (1f/2f * target.getMaxHealth())) {
-            target.playSound(SoundEvents.ENTITY_WOLF_GROWL,1f, 1f);
+        if (target.getHealth() < (1f / 2f * target.getMaxHealth())) {
+            target.playSound(SoundEvents.ENTITY_WOLF_GROWL, 1f, 1f);
             showEmoteParticle(false, world, target);
         } else {
             target.playSound(SoundEvents.ENTITY_WOLF_WHINE, 1f, 1f);
@@ -40,7 +39,7 @@ public class PetCommand implements DogCommand {
             particleEffect = ParticleTypes.ANGRY_VILLAGER;
         }
 
-        for(int i = 0; i < 7; ++i) {
+        for (int i = 0; i < 7; ++i) {
             double d = this.random.nextGaussian() * 0.02;
             double e = this.random.nextGaussian() * 0.02;
             double f = this.random.nextGaussian() * 0.02;

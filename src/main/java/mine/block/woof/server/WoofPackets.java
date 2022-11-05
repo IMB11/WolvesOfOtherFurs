@@ -18,8 +18,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
@@ -32,9 +30,9 @@ public class WoofPackets extends MinelibPacketManager {
             Identifier commandID = new Identifier("woof", nbt.getString("command"));
             for (ServerWorld world : server.getWorlds()) {
                 Entity entity = world.getEntity(id);
-                if(entity instanceof WolfEntity wolfEntity) {
+                if (entity instanceof WolfEntity wolfEntity) {
                     DogCommand command = WoofRegistries.DOG_COMMAND_REGISTRY.get(commandID);
-                    if(command != null) {
+                    if (command != null) {
                         command.runServer(nbt, world, player, wolfEntity);
                         break;
                     }
