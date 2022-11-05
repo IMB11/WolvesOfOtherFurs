@@ -1,6 +1,7 @@
 plugins {
     id 'fabric-loom' version '1.0-SNAPSHOT'
     id 'maven-publish'
+    id 'org.cadixdev.licenser' version '0.6.1'
 }
 
 version = project.mod_version
@@ -11,6 +12,11 @@ repositories {
     maven { url "https://storage.googleapis.com/devan-maven/" }
     maven { url 'https://maven.wispforest.io' }
     maven { url 'https://maven.mineblock11.dev/releases'}
+}
+
+license {
+    include '**/*.java'
+    header rootProject.file('HEADER')
 }
 
 loom {
