@@ -1,9 +1,1 @@
-{
-  "replace": false,
-  "values": [
-    "#byg:is_ocean",
-    "#byg:is_deep_ocean",
-    "#byg:is_swamp",
-    "#byg:is_water"
-  ]
-}
+{"replace":false,"values":[{"id":"#byg:is_ocean","required":false},{"id":"#byg:is_deep_ocean","required":false},{"id":"#byg:is_swamp","required":false},{"id":"#byg:is_water","required":false}]}

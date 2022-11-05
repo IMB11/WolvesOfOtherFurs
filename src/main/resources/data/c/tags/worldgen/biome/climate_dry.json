@@ -1,7 +1,1 @@
-{
-  "replace": false,
-  "values": [
-    "#byg:is_dry",
-    "#byg:is_badlands"
-  ]
-}
+{"replace":false,"values":[{"id":"#byg:is_dry","required":false},{"id":"#byg:is_badlands","required":false}]}

@@ -1,6 +1,1 @@
-{
-  "replace": false,
-  "values": [
-    "#byg:is_mushroom"
-  ]
-}
+{"replace":false,"values":[{"id":"#byg:is_mushroom","required":false}]}

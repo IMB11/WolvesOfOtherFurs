@@ -1,6 +1,1 @@
-{
-  "replace": false,
-  "values": [
-    "#byg:is_dead"
-  ]
-}
+{"replace":false,"values":[{"id":"#byg:is_dead","required":false}]}

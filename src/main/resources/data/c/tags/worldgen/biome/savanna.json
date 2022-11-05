@@ -1,6 +1,1 @@
-{
-  "replace": false,
-  "values": [
-    "#byg:is_savanna"
-  ]
-}
+{"replace":false,"values":[{"id":"#byg:is_savanna","required":false}]}

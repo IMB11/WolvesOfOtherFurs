@@ -1,6 +1,1 @@
-{
-  "replace": false,
-  "values": [
-    "#byg:is_dense"
-  ]
-}
+{"replace":false,"values":[{"id":"#byg:is_dense","required":false}]}

@@ -1,6 +1,1 @@
-{
-  "replace": false,
-  "values": [
-    "#byg:is_void"
-  ]
-}
+{"replace":false,"values":[{"id":"#byg:is_void","required":false}]}

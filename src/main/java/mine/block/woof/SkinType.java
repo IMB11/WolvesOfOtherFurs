@@ -7,6 +7,7 @@ import net.minecraft.world.biome.Biome;
 
 import java.util.function.Function;
 
+@Deprecated(forRemoval = true)
 public enum SkinType {
     TAIGA("woof:textures/variants/taiga.png", "woof:textures/variants/taiga_angry.png", "woof:textures/variants/taiga_tame.png", (biome) -> biome.isIn(ConventionalBiomeTags.TAIGA)),
     DEFAULT("minecraft:textures/entity/wolf/wolf.png", "minecraft:textures/entity/wolf/wolf_angry.png", "minecraft:textures/entity/wolf/wolf_tame.png", null),

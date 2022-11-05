@@ -1,10 +1,11 @@
 package mine.block.woof.mixin;
 
 import mine.block.woof.SkinType;
-import mine.block.woof.entity.DogEatOutBowlGoal;
-import mine.block.woof.entity.DogSitOnBlockGoal;
-import mine.block.woof.entity.WolfDataTracker;
+import mine.block.woof.api.Variant;
+import mine.block.woof.api.WoofAPI;
+import mine.block.woof.entity.*;
 import net.minecraft.entity.*;
+import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.item.Item;
@@ -12,8 +13,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -25,8 +28,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Map;
+
 @Mixin(WolfEntity.class)
 public abstract class WolfEntityMixin extends TameableEntity {
+    Identifier variant;
+
     protected WolfEntityMixin(EntityType<? extends TameableEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -126,15 +133,15 @@ public abstract class WolfEntityMixin extends TameableEntity {
         BlockPos pos = this.getBlockPos();
         RegistryEntry<Biome> biome = this.getEntityWorld().getBiome(pos);
 
-        for (SkinType value : SkinType.values()) {
-            if(value == SkinType.DEFAULT) continue;
-            if(value.getSpawnConditions().apply(biome)) {
-                this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, value);
+        for (Map.Entry<RegistryKey<Variant>, Variant> variantEntry : WoofAPI.VARIANT_REGISTRY.getEntrySet()) {
+            if(variantEntry.getValue().identifier().getPath().equals("default")) continue;
+            if (variantEntry.getValue().biomePredicate().apply(biome)) {
+                this.dataTracker.set(WolfVariantTracker.VARIANT_TYPE, variantEntry.getValue().identifier());
+                this.variant = variantEntry.getValue().identifier();
                 return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
             }
         }
 
-        this.dataTracker.set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.DEFAULT);
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
@@ -142,20 +149,57 @@ public abstract class WolfEntityMixin extends TameableEntity {
     public void writeCustomDataToNbt_InjectTail(NbtCompound nbt, CallbackInfo ci) {
         nbt.putInt("hungerTick", hungerTick);
         nbt.putInt("eatTick", eatTick);
-        nbt.putString("skinType", this.getDataTracker().get(WolfDataTracker.WOLF_SKIN_TYPE).name());
+
+        if(this.variant == null) {
+            if (this.dataTracker.get(WolfDataTracker.WOLF_SKIN_TYPE) != null) {
+                this.variant = switch (this.dataTracker.get(WolfDataTracker.WOLF_SKIN_TYPE)) {
+                    case DEFAULT -> new Identifier("woof", "default");
+                    case DESERT -> new Identifier("woof", "desert");
+                    case SNOWY -> new Identifier("woof", "snowy");
+                    case SKELETON -> new Identifier("woof", "skeleton");
+                    case SWAMP -> new Identifier("woof", "swamp");
+                    case TAIGA -> new Identifier("woof", "taiga");
+                    case MOUNTAIN -> new Identifier("woof", "mountain");
+                };
+            } else {
+                this.variant = new Identifier("woof", "default");
+            }
+        }
+
+        nbt.putString("variant", this.variant.toString());
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
     public void readCustomDataFromNbt_InjectTail(NbtCompound nbt, CallbackInfo ci) {
         this.hungerTick = nbt.getInt("hungerTick");
         this.eatTick = nbt.getInt("eatTick");
-        this.getDataTracker().set(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.valueOf(nbt.getString("skinType")));
+        if(nbt.contains("skinType")) {
+            // Convert to new format.
+            var type = SkinType.valueOf(nbt.getString("skinType"));
+            this.variant = switch (type) {
+                case DEFAULT -> new Identifier("woof", "default");
+                case DESERT -> new Identifier("woof", "desert");
+                case SNOWY -> new Identifier("woof", "snowy");
+                case SKELETON -> new Identifier("woof", "skeleton");
+                case SWAMP -> new Identifier("woof", "swamp");
+                case TAIGA -> new Identifier("woof", "taiga");
+                case MOUNTAIN -> new Identifier("woof", "mountain");
+            };
+            this.dataTracker.set(WolfVariantTracker.VARIANT_TYPE, this.variant);
+        } else if(nbt.contains("variant")) {
+            this.variant = Identifier.tryParse(nbt.getString("variant"));
+            this.dataTracker.set(WolfVariantTracker.VARIANT_TYPE, this.variant);
+        } else {
+            this.variant = new Identifier("woof", "default");
+            this.dataTracker.set(WolfVariantTracker.VARIANT_TYPE, this.variant);
+        }
         this.setCanPickUpLoot(true);
     }
 
     @Inject(method = "initDataTracker", at = @At("TAIL"))
     public void initDataTracker_InjectTail(CallbackInfo ci) {
-        this.dataTracker.startTracking(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.DEFAULT);
+        this.dataTracker.startTracking(WolfDataTracker.WOLF_SKIN_TYPE, null);
+        this.dataTracker.startTracking(WolfVariantTracker.VARIANT_TYPE, new Identifier("woof", "default"));
     }
 
     @Inject(method = "initGoals", at = @At("TAIL"))

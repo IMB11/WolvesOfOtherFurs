@@ -1,6 +1,1 @@
-{
-  "replace": false,
-  "values": [
-    "#byg:is_river"
-  ]
-}
+{"replace":false,"values":[{"id":"#byg:is_river","required":false}]}
