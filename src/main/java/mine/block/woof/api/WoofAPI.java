@@ -9,8 +9,10 @@ package mine.block.woof.api;
 import mine.block.woof.Woof;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
+import net.fabricmc.fabric.api.biome.v1.NetherBiomes;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.Identifier;
@@ -20,6 +22,7 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.registry.SimpleRegistry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.SpawnSettings;
+import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Map;
@@ -41,16 +44,17 @@ public class WoofAPI {
 
     @ApiStatus.Internal
     public static void initialize() {
-        BiomeModifications.create(Woof.id("wolf_additions")).add(ModificationPhase.POST_PROCESSING, biomeSelectionContext -> true, (biomeSelectionContext, biomeModificationContext) -> {
+        BiomeModifications.create(Woof.id("wolf_additions")).add(ModificationPhase.REPLACEMENTS, biomeSelectionContext -> true, (biomeSelectionContext, biomeModificationContext) -> {
             for (Map.Entry<RegistryKey<Variant>, Variant> variantRegistryKey : WoofAPI.VARIANT_REGISTRY.getEntrySet()) {
-                if (variantRegistryKey.getValue().biomePredicate().apply(biomeSelectionContext.getBiomeRegistryEntry()))
+                if (!variantRegistryKey.getValue().biomePredicate().apply(biomeSelectionContext.getBiomeRegistryEntry()))
                     continue;
                 biomeModificationContext.getSpawnSettings().removeSpawnsOfEntityType(EntityType.WOLF);
-                if (biomeSelectionContext.hasTag(ConventionalBiomeTags.IN_NETHER)) {
-                    biomeModificationContext.getSpawnSettings().addSpawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(EntityType.WOLF, 5, 1, 2));
-                }
-                biomeModificationContext.getSpawnSettings().addSpawn(SpawnGroup.AMBIENT, new SpawnSettings.SpawnEntry(EntityType.WOLF, 5, 1, 2));
+                biomeModificationContext.getSpawnSettings().addSpawn(SpawnGroup.MISC, new SpawnSettings.SpawnEntry(EntityType.WOLF, 5, 1, 2));
             }
         });
+
+        for (WoofAddonEntrypoint entrypoint : FabricLoader.getInstance().getEntrypoints("woof", WoofAddonEntrypoint.class)) {
+            entrypoint.initialize();
+        }
     }
 }

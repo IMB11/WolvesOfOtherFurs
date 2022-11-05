@@ -6,7 +6,6 @@
 
 package mine.block.woof.entity;
 
-import mine.block.woof.api.WoofDogGoal;
 import mine.block.woof.register.block.DogBowlBlock;
 import mine.block.woof.register.block.WoofBlocks;
 import net.minecraft.block.BlockState;
@@ -18,7 +17,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldView;
 
-public class DogEatOutBowlGoal extends MoveToTargetPosGoal implements WoofDogGoal {
+public class DogEatOutBowlGoal extends MoveToTargetPosGoal {
     private final TameableEntity wolf;
 
     public DogEatOutBowlGoal(WolfEntity mob, double speed) {
@@ -45,10 +44,5 @@ public class DogEatOutBowlGoal extends MoveToTargetPosGoal implements WoofDogGoa
     @Override
     protected boolean isTargetPos(WorldView world, BlockPos pos) {
         return world.getBlockState(pos).isOf(WoofBlocks.DOG_BOWL_BLOCK) && world.getBlockState(pos).get(DogBowlBlock.FILLED);
-    }
-
-    @Override
-    public int getPriority() {
-        return 7;
     }
 }

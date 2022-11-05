@@ -6,7 +6,6 @@
 
 package mine.block.woof.entity;
 
-import mine.block.woof.api.WoofDogGoal;
 import mine.block.woof.register.block.DogBedBlock;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.BlockState;
@@ -19,7 +18,7 @@ import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldView;
 
-public class DogSitOnBlockGoal extends MoveToTargetPosGoal implements WoofDogGoal {
+public class DogSitOnBlockGoal extends MoveToTargetPosGoal {
     private final WolfEntity wolf;
 
     public DogSitOnBlockGoal(WolfEntity wolf, double speed) {
@@ -58,10 +57,5 @@ public class DogSitOnBlockGoal extends MoveToTargetPosGoal implements WoofDogGoa
                     || blockState.isIn(BlockTags.BEDS, (state) -> state.getOrEmpty(BedBlock.PART).map((part) -> part != BedPart.HEAD).orElse(true))
                     || blockState.getBlock() instanceof DogBedBlock;
         }
-    }
-
-    @Override
-    public int getPriority() {
-        return 7;
     }
 }
