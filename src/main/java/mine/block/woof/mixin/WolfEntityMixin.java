@@ -3,6 +3,7 @@ package mine.block.woof.mixin;
 import mine.block.woof.SkinType;
 import mine.block.woof.api.Variant;
 import mine.block.woof.api.WoofAPI;
+import mine.block.woof.api.WoofDogGoalCallback;
 import mine.block.woof.entity.*;
 import net.minecraft.entity.*;
 import net.minecraft.entity.data.TrackedData;
@@ -204,7 +205,6 @@ public abstract class WolfEntityMixin extends TameableEntity {
 
     @Inject(method = "initGoals", at = @At("TAIL"))
     public void initGoals_InjectTail(CallbackInfo ci) {
-        this.goalSelector.add(7, new DogSitOnBlockGoal((WolfEntity)(Object)this, 0.8));
-        this.goalSelector.add(4, new DogEatOutBowlGoal((WolfEntity)(Object) this, 0.9));
+        WoofDogGoalCallback.EVENT.invoker().registerGoal(this.goalSelector, (WolfEntity)(Object)this);
     }
 }

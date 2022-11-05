@@ -2,18 +2,22 @@ package mine.block.woof.register;
 
 import mine.block.woof.Woof;
 import mine.block.woof.api.WoofAPI;
+import mine.block.woof.api.WoofDogGoalCallback;
 import mine.block.woof.commands.DogCommand;
 import mine.block.woof.commands.actions.BarkCommand;
 import mine.block.woof.commands.actions.GoAwayCommand;
 import mine.block.woof.commands.actions.HowlCommand;
 import mine.block.woof.commands.actions.JumpCommand;
 import mine.block.woof.commands.generic.PetCommand;
+import mine.block.woof.entity.DogEatOutBowlGoal;
+import mine.block.woof.entity.DogSitOnBlockGoal;
 import mine.block.woof.entity.WolfDataTracker;
 import mine.block.woof.entity.WolfVariantTracker;
 import mine.block.woof.register.block.WoofBlocks;
 import mine.block.woof.register.item.WoofItems;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.tag.BiomeTags;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
@@ -47,5 +51,12 @@ public class WoofRegistries {
         WoofAPI.registerWolfVariant(Woof.id("mountain"), (biome) -> biome.isIn(ConventionalBiomeTags.MOUNTAIN) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_PEAK) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_SLOPE));
         WoofAPI.registerWolfVariant(Woof.id("skeleton"), (biome) -> biome.matchesId(new Identifier("soul_sand_valley")));
         WoofAPI.registerWolfVariant(Woof.id("swamp"), (biome) -> biome.isIn(ConventionalBiomeTags.SWAMP));
+
+        // Builtin Goals
+
+        WoofDogGoalCallback.EVENT.register((goalSelector, wolfEntity) -> {
+            goalSelector.add(7, new DogSitOnBlockGoal(wolfEntity, 0.8));
+            goalSelector.add(4, new DogEatOutBowlGoal(wolfEntity, 0.9));
+        });
     }
 }
