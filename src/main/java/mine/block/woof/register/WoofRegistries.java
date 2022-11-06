@@ -46,13 +46,15 @@ public class WoofRegistries {
         // Builtin variants.
         WoofAPI.registerWolfVariant(Woof.id("default"), (biome) -> false);
         WoofAPI.registerWolfVariant(Woof.id("taiga"), (biome) -> biome.isIn(ConventionalBiomeTags.TAIGA));
-        WoofAPI.registerWolfVariant(Woof.id("snowy"), (biome) -> {
-            return biome.isIn(ConventionalBiomeTags.SNOWY);
-        });
+        WoofAPI.registerWolfVariant(Woof.id("snowy"), (biome) -> biome.isIn(ConventionalBiomeTags.SNOWY));
         WoofAPI.registerWolfVariant(Woof.id("desert"), (biome) -> biome.isIn(ConventionalBiomeTags.DESERT) || biome.isIn(ConventionalBiomeTags.BADLANDS) || biome.isIn(ConventionalBiomeTags.SAVANNA) || biome.isIn(ConventionalBiomeTags.JUNGLE));
         WoofAPI.registerWolfVariant(Woof.id("mountain"), (biome) -> biome.isIn(ConventionalBiomeTags.MOUNTAIN) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_PEAK) || biome.isIn(ConventionalBiomeTags.MOUNTAIN_SLOPE));
         WoofAPI.registerWolfVariant(Woof.id("skeleton"), (biome) -> biome.matchesId(new Identifier("soul_sand_valley")));
         WoofAPI.registerWolfVariant(Woof.id("swamp"), (biome) -> biome.isIn(ConventionalBiomeTags.SWAMP));
+        WoofAPI.registerWolfVariant(Woof.id("sculk"), (biome) -> biome.matchesId(new Identifier("deep_dark")));
+        WoofAPI.registerWolfVariant(Woof.id("dripstone"), (biome) -> biome.matchesId(new Identifier("dripstone_caves")));
+        WoofAPI.registerWolfVariant(Woof.id("lush"), (biome) -> biome.matchesId(new Identifier("lush_caves")));
+
 
         // Builtin Goals
 

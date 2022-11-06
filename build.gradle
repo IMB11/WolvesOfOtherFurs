@@ -86,13 +86,14 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+            artifactId = "woof"
         }
     }
 
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
         maven {
-            name "mineblock"
+            name "mineblockMaven"
             url "https://maven.mineblock11.dev/releases"
             credentials(PasswordCredentials)
         }

@@ -28,7 +28,7 @@ public class WolfEntityRendererMixin {
 
     private Identifier getTexture(WolfEntity entity, Identifier type) {
         Variant variant = WoofAPI.VARIANT_REGISTRY.get(type);
-        if (variant == null) return new Identifier("null");
+        if (variant == null) return new Identifier("textures/entity/wolf/wolf.png");
         if (entity.isTamed()) {
             return variant.getTameTexture();
         } else {

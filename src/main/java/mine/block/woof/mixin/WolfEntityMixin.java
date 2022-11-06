@@ -204,7 +204,7 @@ public abstract class WolfEntityMixin extends TameableEntity {
     @Inject(method = "initDataTracker", at = @At("TAIL"))
     public void initDataTracker_InjectTail(CallbackInfo ci) {
         this.dataTracker.startTracking(WolfDataTracker.WOLF_SKIN_TYPE, null);
-        this.dataTracker.startTracking(WolfVariantTracker.VARIANT_TYPE, new Identifier("woof", "default"));
+        this.dataTracker.startTracking(WolfVariantTracker.VARIANT_TYPE, new Identifier("woof", "null"));
     }
 
     @Inject(method = "initGoals", at = @At("TAIL"))
