@@ -30,5 +30,5 @@ dependencies {
 
 You can find the current `woof_version` [on the maven.](https://maven.mineblock11.dev/#/releases/mine/block/woof)
 
-Documentation on the Wolves Of Other Furs API can be found at [minedocs](https://docs.mineblock11.dev/documentation/woof)
+Documentation on the Wolves Of Other Furs API can be found at [minedocs](https://docs.mineblock11.dev/documentation/W.O.O.F)
 
