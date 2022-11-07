@@ -47,7 +47,7 @@ public class WoofAPI {
     public static void initialize() {
 
         for (Map.Entry<RegistryKey<Variant>, Variant> variantRegistryKey : WoofAPI.VARIANT_REGISTRY.getEntrySet()) {
-            BiomeModifications.addSpawn(biomeSelectionContext -> variantRegistryKey.getValue().canSpawnIn(biomeSelectionContext.getBiomeRegistryEntry()), SpawnGroup.AMBIENT, EntityType.WOLF, 5, 1, 2);
+            BiomeModifications.addSpawn(biomeSelectionContext -> variantRegistryKey.getValue().canSpawnIn(biomeSelectionContext.getBiomeRegistryEntry()), SpawnGroup.CREATURE, EntityType.WOLF, 5, 1, 2);
         }
 
 //        BiomeModifications.create(Woof.id("wolf_additions")).add(ModificationPhase.REPLACEMENTS, biomeSelectionContext -> true, (biomeSelectionContext, biomeModificationContext) -> {
