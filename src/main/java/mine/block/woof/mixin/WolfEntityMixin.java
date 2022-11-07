@@ -159,9 +159,9 @@ public abstract class WolfEntityMixin extends TameableEntity {
         nbt.putInt("eatTick", eatTick);
 
         if (this.variant == null) {
-            if (this.dataTracker.get(WolfDataTracker.WOLF_SKIN_TYPE) != null) {
+            if (this.dataTracker.get(WolfDataTracker.WOLF_SKIN_TYPE) != null && this.dataTracker.get(WolfDataTracker.WOLF_SKIN_TYPE) != SkinType.NULL) {
                 this.variant = switch (this.dataTracker.get(WolfDataTracker.WOLF_SKIN_TYPE)) {
-                    case DEFAULT -> new Identifier("woof", "default");
+                    case DEFAULT, NULL -> new Identifier("woof", "default");
                     case DESERT -> new Identifier("woof", "desert");
                     case SNOWY -> new Identifier("woof", "snowy");
                     case SKELETON -> new Identifier("woof", "skeleton");
@@ -185,7 +185,7 @@ public abstract class WolfEntityMixin extends TameableEntity {
             // Convert to new format.
             var type = SkinType.valueOf(nbt.getString("skinType"));
             this.variant = switch (type) {
-                case DEFAULT -> new Identifier("woof", "default");
+                case DEFAULT, NULL -> new Identifier("woof", "default");
                 case DESERT -> new Identifier("woof", "desert");
                 case SNOWY -> new Identifier("woof", "snowy");
                 case SKELETON -> new Identifier("woof", "skeleton");
@@ -211,7 +211,7 @@ public abstract class WolfEntityMixin extends TameableEntity {
 
     @Inject(method = "initDataTracker", at = @At("TAIL"))
     public void initDataTracker_InjectTail(CallbackInfo ci) {
-        this.dataTracker.startTracking(WolfDataTracker.WOLF_SKIN_TYPE, null);
+        this.dataTracker.startTracking(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.NULL);
         this.dataTracker.startTracking(WolfVariantTracker.VARIANT_TYPE, new Identifier("woof", "null"));
     }
 

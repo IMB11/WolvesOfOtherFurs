@@ -10,10 +10,13 @@ import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 
+import java.util.Objects;
 import java.util.function.Function;
 
 @Deprecated(forRemoval = true)
 public enum SkinType {
+
+    NULL("", "", "", Objects::isNull),
     TAIGA("woof:textures/variants/taiga.png", "woof:textures/variants/taiga_angry.png", "woof:textures/variants/taiga_tame.png", (biome) -> biome.isIn(ConventionalBiomeTags.TAIGA)),
     DEFAULT("minecraft:textures/entity/wolf/wolf.png", "minecraft:textures/entity/wolf/wolf_angry.png", "minecraft:textures/entity/wolf/wolf_tame.png", null),
     SNOWY("woof:textures/variants/snowy.png", "woof:textures/variants/snowy_angry.png", "woof:textures/variants/snowy_tame.png", (biome) -> biome.isIn(ConventionalBiomeTags.SNOWY)),
