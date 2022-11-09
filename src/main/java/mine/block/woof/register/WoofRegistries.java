@@ -57,7 +57,6 @@ public class WoofRegistries {
 
 
         // Builtin Goals
-
         WoofDogGoalCallback.EVENT.register((goalSelector, wolfEntity) -> {
             goalSelector.add(7, new DogSitOnBlockGoal(wolfEntity, 0.8));
             goalSelector.add(4, new DogEatOutBowlGoal(wolfEntity, 0.9));

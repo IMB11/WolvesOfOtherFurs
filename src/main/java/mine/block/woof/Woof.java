@@ -8,7 +8,6 @@ package mine.block.woof;
 
 import mine.block.woof.api.WoofAPI;
 import mine.block.woof.register.WoofRegistries;
-import mine.block.woof.server.WoofPackets;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.item.Item;
 import net.minecraft.tag.TagKey;
@@ -26,7 +25,5 @@ public class Woof implements ModInitializer {
     public void onInitialize() {
         WoofRegistries.initialize();
         WoofAPI.initialize();
-
-        WoofPackets.SEND_DOG_COMMAND.register();
     }
 }
