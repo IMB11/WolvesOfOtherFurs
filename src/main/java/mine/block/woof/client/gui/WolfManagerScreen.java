@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 mineblock11 <https://github.com/mineblock11>
+ * Copyright (C) 2023 mineblock11 <https://github.com/mineblock11>
  *
  * All code in Wolves Of Other Furs is licensed under the Academic Free License version 3.0
  */
@@ -14,7 +14,7 @@ import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
 import mine.block.woof.commands.DogCommand;
 import mine.block.woof.register.WoofRegistries;
-import mine.block.woof.server.WoofPackets;
+import mine.block.woof.server.SendDogCommandC2S;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
@@ -131,7 +131,9 @@ public class WolfManagerScreen extends BaseOwoScreen<FlowLayout> {
                                 compound.putUuid("wolfUUID", target.getUuid());
                                 compound.putString("command", identifier.getPath());
                                 command.runClient(compound, this.target);
-                                ClientPlayNetworking.send(WoofPackets.SEND_DOG_COMMAND.ID, PacketByteBufs.create().writeNbt(compound));
+                                var buf = PacketByteBufs.create().writeNbt(compound);
+                                SendDogCommandC2S cmd = new SendDogCommandC2S();
+                                cmd.send(buf);
                                 this.close();
                             }).margins(Insets.horizontal(3)).horizontalSizing(Sizing.fill(75));
                             if (command.getTooltip() != null) {

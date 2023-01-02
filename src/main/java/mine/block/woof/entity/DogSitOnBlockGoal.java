@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 mineblock11 <https://github.com/mineblock11>
+ * Copyright (C) 2023 mineblock11 <https://github.com/mineblock11>
  *
  * All code in Wolves Of Other Furs is licensed under the Academic Free License version 3.0
  */
@@ -14,7 +14,7 @@ import net.minecraft.block.FurnaceBlock;
 import net.minecraft.block.enums.BedPart;
 import net.minecraft.entity.ai.goal.MoveToTargetPosGoal;
 import net.minecraft.entity.passive.WolfEntity;
-import net.minecraft.tag.BlockTags;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldView;
 

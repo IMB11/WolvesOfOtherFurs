@@ -32,11 +32,7 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modImplementation("mine.block:mine11lib:${project.lib11_version}")
-
-    include implementation("com.github.LlamaLad7:MixinExtras:0.0.12")
-
-    annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.12")
+    modImplementation("mine.block:MRU:${project.lib11_version}")
 
     include modImplementation("net.devtech:arrp:${project.arrp_version}")
     include modImplementation("io.wispforest:owo-lib:${project.owo_version}")

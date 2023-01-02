@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 mineblock11 <https://github.com/mineblock11>
+ * Copyright (C) 2023 mineblock11 <https://github.com/mineblock11>
  *
  * All code in Wolves Of Other Furs is licensed under the Academic Free License version 3.0
  */
@@ -18,13 +18,13 @@ import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
