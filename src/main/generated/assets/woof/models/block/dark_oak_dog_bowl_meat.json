@@ -1,0 +1,7 @@
+ {
+	"parent": "woof:block/dog_bowl_block_meat",
+	"textures": {
+		"0": "minecraft:block/dark_oak_log",
+		"particle": "minecraft:block/dark_oak_log"
+	}
+}

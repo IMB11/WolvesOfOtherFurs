@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "filled=false": { "model": "woof:birch_dog_bowl" },
+    "filled=true": { "model": "woof:birch_dog_bowl_meat" }
+  }
+}

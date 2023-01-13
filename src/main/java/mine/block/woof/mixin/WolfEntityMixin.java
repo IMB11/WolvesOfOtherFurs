@@ -1,16 +1,14 @@
 /*
  * Copyright (C) 2023 mineblock11 <https://github.com/mineblock11>
  *
- * All code in Wolves Of Other Furs is licensed under the Academic Free License version 3.0
+ * All Rights Reserved
  */
 
 package mine.block.woof.mixin;
 
-import mine.block.woof.SkinType;
 import mine.block.woof.api.Variant;
 import mine.block.woof.api.WoofAPI;
 import mine.block.woof.api.WoofDogGoalCallback;
-import mine.block.woof.entity.WolfDataTracker;
 import mine.block.woof.entity.WolfVariantTracker;
 import net.minecraft.entity.*;
 import net.minecraft.entity.passive.TameableEntity;
@@ -159,19 +157,7 @@ public abstract class WolfEntityMixin extends TameableEntity {
         nbt.putInt("eatTick", eatTick);
 
         if (this.variant == null) {
-            if (this.dataTracker.get(WolfDataTracker.WOLF_SKIN_TYPE) != null && this.dataTracker.get(WolfDataTracker.WOLF_SKIN_TYPE) != SkinType.NULL) {
-                this.variant = switch (this.dataTracker.get(WolfDataTracker.WOLF_SKIN_TYPE)) {
-                    case DEFAULT, NULL -> new Identifier("woof", "default");
-                    case DESERT -> new Identifier("woof", "desert");
-                    case SNOWY -> new Identifier("woof", "snowy");
-                    case SKELETON -> new Identifier("woof", "skeleton");
-                    case SWAMP -> new Identifier("woof", "swamp");
-                    case TAIGA -> new Identifier("woof", "taiga");
-                    case MOUNTAIN -> new Identifier("woof", "mountain");
-                };
-            } else {
-                this.variant = new Identifier("woof", "default");
-            }
+            this.variant = new Identifier("woof", "default");
         }
 
         nbt.putString("variant", this.variant.toString());
@@ -181,20 +167,7 @@ public abstract class WolfEntityMixin extends TameableEntity {
     public void readCustomDataFromNbt_InjectTail(NbtCompound nbt, CallbackInfo ci) {
         this.hungerTick = nbt.getInt("hungerTick");
         this.eatTick = nbt.getInt("eatTick");
-        if (nbt.contains("skinType")) {
-            // Convert to new format.
-            var type = SkinType.valueOf(nbt.getString("skinType"));
-            this.variant = switch (type) {
-                case DEFAULT, NULL -> new Identifier("woof", "default");
-                case DESERT -> new Identifier("woof", "desert");
-                case SNOWY -> new Identifier("woof", "snowy");
-                case SKELETON -> new Identifier("woof", "skeleton");
-                case SWAMP -> new Identifier("woof", "swamp");
-                case TAIGA -> new Identifier("woof", "taiga");
-                case MOUNTAIN -> new Identifier("woof", "mountain");
-            };
-            this.dataTracker.set(WolfVariantTracker.VARIANT_TYPE, this.variant);
-        } else if (nbt.contains("variant")) {
+        if (nbt.contains("variant")) {
             this.variant = Identifier.tryParse(nbt.getString("variant"));
             this.dataTracker.set(WolfVariantTracker.VARIANT_TYPE, this.variant);
         } else {
@@ -211,7 +184,6 @@ public abstract class WolfEntityMixin extends TameableEntity {
 
     @Inject(method = "initDataTracker", at = @At("TAIL"))
     public void initDataTracker_InjectTail(CallbackInfo ci) {
-        this.dataTracker.startTracking(WolfDataTracker.WOLF_SKIN_TYPE, SkinType.NULL);
         this.dataTracker.startTracking(WolfVariantTracker.VARIANT_TYPE, new Identifier("woof", "null"));
     }
 

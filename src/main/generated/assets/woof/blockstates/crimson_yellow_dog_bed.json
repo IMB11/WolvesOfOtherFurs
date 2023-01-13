@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "woof:crimson_yellow_dog_bed",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "woof:crimson_yellow_dog_bed",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "woof:crimson_yellow_dog_bed"
+    },
+    "facing=west": {
+      "model": "woof:crimson_yellow_dog_bed",
+      "y": 90
+    }
+  }
+}

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2023 mineblock11 <https://github.com/mineblock11>
  *
- * All code in Wolves Of Other Furs is licensed under the Academic Free License version 3.0
+ * All Rights Reserved
  */
 
 package mine.block.woof.register.block;
@@ -12,6 +12,7 @@ import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -22,8 +23,21 @@ import net.minecraft.world.BlockView;
 import java.util.stream.Stream;
 
 public class DogBedBlock extends HorizontalFacingBlock {
-    public DogBedBlock(Settings settings) {
+    public final Identifier parentWoodType;
+    public final Identifier parentWoolType;
+
+    public Identifier getParentWoodType() {
+        return parentWoodType;
+    }
+
+    public Identifier getParentWoolType() {
+        return parentWoolType;
+    }
+
+    public DogBedBlock(Settings settings, Identifier parentWoodType, Identifier parentWoolType) {
         super(settings);
+        this.parentWoodType = parentWoodType;
+        this.parentWoolType = parentWoolType;
     }
 
     public static VoxelShape rotateShape(Direction to, VoxelShape shape) {

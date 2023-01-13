@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2023 mineblock11 <https://github.com/mineblock11>
  *
- * All code in Wolves Of Other Furs is licensed under the Academic Free License version 3.0
+ * All Rights Reserved
  */
 
 package mine.block.woof.register;
@@ -17,7 +17,6 @@ import mine.block.woof.commands.actions.JumpCommand;
 import mine.block.woof.commands.generic.PetCommand;
 import mine.block.woof.entity.DogEatOutBowlGoal;
 import mine.block.woof.entity.DogSitOnBlockGoal;
-import mine.block.woof.entity.WolfDataTracker;
 import mine.block.woof.entity.WolfVariantTracker;
 import mine.block.woof.register.block.WoofBlocks;
 import mine.block.woof.register.item.WoofItems;
@@ -34,7 +33,6 @@ public class WoofRegistries {
         WoofBlocks.init();
         WoofItems.init();
 
-        TrackedDataHandlerRegistry.register(WolfDataTracker.SKIN_TYPE_TRACKER_ENUM);
         TrackedDataHandlerRegistry.register(WolfVariantTracker.VARIANT_TRACKER);
 
         DogCommand[] dogCommands = new DogCommand[]{new GoAwayCommand(), new PetCommand(), new BarkCommand(), new HowlCommand(), new JumpCommand()};

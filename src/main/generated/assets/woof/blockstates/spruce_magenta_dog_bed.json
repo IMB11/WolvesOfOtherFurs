@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "woof:spruce_magenta_dog_bed",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "woof:spruce_magenta_dog_bed",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "woof:spruce_magenta_dog_bed"
+    },
+    "facing=west": {
+      "model": "woof:spruce_magenta_dog_bed",
+      "y": 90
+    }
+  }
+}

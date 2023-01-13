@@ -20,7 +20,27 @@ license {
 }
 
 loom {
+    runs {
+        datagenClient {
+            inherit client
+            name "Data Generation"
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+            vmArg "-Dfabric-api.datagen.modid=woof"
+            runDir "build/datagen"
+        }
+    }
     accessWidenerPath = file("src/main/resources/woof.accesswidener")
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs += [
+                    'src/main/generated'
+            ]
+        }
+    }
 }
 
 dependencies {
@@ -34,7 +54,6 @@ dependencies {
 
     modImplementation("mine.block:MRU:${project.lib11_version}")
 
-    include modImplementation("net.devtech:arrp:${project.arrp_version}")
     include modImplementation("io.wispforest:owo-lib:${project.owo_version}")
 }
 

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "woof:jungle_brown_dog_bed",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "woof:jungle_brown_dog_bed",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "woof:jungle_brown_dog_bed"
+    },
+    "facing=west": {
+      "model": "woof:jungle_brown_dog_bed",
+      "y": 90
+    }
+  }
+}

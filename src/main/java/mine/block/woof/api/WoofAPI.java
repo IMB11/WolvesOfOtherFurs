@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2023 mineblock11 <https://github.com/mineblock11>
  *
- * All code in Wolves Of Other Furs is licensed under the Academic Free License version 3.0
+ * All Rights Reserved
  */
 
 package mine.block.woof.api;
@@ -9,21 +9,33 @@ package mine.block.woof.api;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.SimpleRegistry;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntryList;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 import org.jetbrains.annotations.ApiStatus;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 public class WoofAPI {
     public static final SimpleRegistry<Variant> VARIANT_REGISTRY = FabricRegistryBuilder.createSimple(Variant.class, new Identifier("woof_variants")).buildAndRegister();
+    public static final HashSet<Identifier> VALID_WOOL_TYPES = new HashSet<>();
+    public static final HashSet<Identifier> VALID_WOOD_TYPES = new HashSet<>();
 
     /**
      * Register a new wolf variant.
@@ -36,24 +48,54 @@ public class WoofAPI {
         return Registry.register(VARIANT_REGISTRY, identifier, new Variant(identifier, biomePredicate));
     }
 
+
+
+    public static List<Identifier> getValidWoolTypes() {
+        return VALID_WOOL_TYPES.parallelStream().toList();
+    }
+
+    private static void populateWoolTypesVanilla() {
+        for (DyeColor value : DyeColor.values()) {
+            VALID_WOOL_TYPES.add(new Identifier("minecraft:" + value.getName() + "_wool"));
+        }
+    }
+
+    public static List<Identifier> getValidWoodTypes() {
+        return VALID_WOOD_TYPES.parallelStream().toList();
+    }
+
+    private static Identifier of(String path) {
+        return new Identifier(path);
+    }
+
+    private static void populateWoodTypesVanilla() {
+        VALID_WOOD_TYPES.addAll(List.of(
+                of("minecraft:oak_log"),
+                of("minecraft:spruce_log"),
+                of("minecraft:birch_log"),
+                of("minecraft:jungle_log"),
+                of("minecraft:acacia_log"),
+                of("minecraft:dark_oak_log"),
+                of("minecraft:mangrove_log"),
+                of("minecraft:crimson_stem"),
+                of("minecraft:warped_stem")
+                )
+        );
+    }
+
     @ApiStatus.Internal
     public static void initialize() {
+
+        // Init blocks class.
+        System.out.println(Blocks.JUKEBOX);
+
+        populateWoolTypesVanilla();
+        populateWoodTypesVanilla();
 
         for (Map.Entry<RegistryKey<Variant>, Variant> variantRegistryKey : WoofAPI.VARIANT_REGISTRY.getEntrySet()) {
             BiomeModifications.addSpawn(biomeSelectionContext -> variantRegistryKey.getValue().canSpawnIn(biomeSelectionContext.getBiomeRegistryEntry()), SpawnGroup.CREATURE, EntityType.WOLF, 5, 1, 2);
         }
 
-//        BiomeModifications.create(Woof.id("wolf_additions")).add(ModificationPhase.REPLACEMENTS, biomeSelectionContext -> true, (biomeSelectionContext, biomeModificationContext) -> {
-//            // Iterate all wolf variant types.
-//            for (Map.Entry<RegistryKey<Variant>, Variant> variantRegistryKey : WoofAPI.VARIANT_REGISTRY.getEntrySet()) {
-//                // Check if variant can spawn in biome.
-//                if (!variantRegistryKey.getValue().biomePredicate().apply(biomeSelectionContext.getBiomeRegistryEntry()))
-//                    continue;
-//                biomeModificationContext.getSpawnSettings().removeSpawnsOfEntityType(EntityType.WOLF);
-//                biomeModificationContext.getSpawnSettings().addSpawn(SpawnGroup.MISC, new SpawnSettings.SpawnEntry(EntityType.WOLF, 5, 1, 2));
-//            }
-//        });
-//
         for (WoofAddonEntrypoint entrypoint : FabricLoader.getInstance().getEntrypoints("woof", WoofAddonEntrypoint.class)) {
             entrypoint.initialize();
         }

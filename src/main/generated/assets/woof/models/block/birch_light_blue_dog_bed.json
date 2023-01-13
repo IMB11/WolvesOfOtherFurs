@@ -1,0 +1,8 @@
+{
+	"parent": "woof:block/dog_bed",
+	"textures": {
+		"0": "minecraft:block/birch_log",
+		"1": "minecraft:block/light_blue_wool",
+		"particle": "minecraft:block/birch_log"
+	}
+}

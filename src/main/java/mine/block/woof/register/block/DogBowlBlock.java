@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2023 mineblock11 <https://github.com/mineblock11>
  *
- * All code in Wolves Of Other Furs is licensed under the Academic Free License version 3.0
+ * All Rights Reserved
  */
 
 package mine.block.woof.register.block;
@@ -16,6 +16,7 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -29,8 +30,15 @@ import java.util.stream.Stream;
 public class DogBowlBlock extends Block {
     public static Property<Boolean> FILLED = BooleanProperty.of("filled");
 
-    public DogBowlBlock(Settings settings) {
+    public Identifier getParentWoodType() {
+        return parentWoodType;
+    }
+
+    private final Identifier parentWoodType;
+
+    public DogBowlBlock(Settings settings, Identifier parentWoodType) {
         super(settings);
+        this.parentWoodType = parentWoodType;
         setDefaultState(getDefaultState().with(FILLED, false));
     }
 

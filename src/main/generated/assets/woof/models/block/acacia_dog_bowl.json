@@ -1,0 +1,7 @@
+{
+	"parent": "woof:block/dog_bowl_block",
+	"textures": {
+		"0": "minecraft:block/acacia_log",
+		"particle": "minecraft:block/acacia_log"
+	}
+}

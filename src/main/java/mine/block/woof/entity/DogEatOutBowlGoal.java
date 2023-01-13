@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2023 mineblock11 <https://github.com/mineblock11>
  *
- * All code in Wolves Of Other Furs is licensed under the Academic Free License version 3.0
+ * All Rights Reserved
  */
 
 package mine.block.woof.entity;
@@ -34,7 +34,7 @@ public class DogEatOutBowlGoal extends MoveToTargetPosGoal {
     public void tick() {
         super.tick();
         if (hasReached()) {
-            if (!wolf.getWorld().getBlockState(targetPos).isOf(WoofBlocks.DOG_BOWL_BLOCK)) return;
+            if (!wolf.getWorld().getBlockState(targetPos).isIn(WoofBlocks.DOG_BOWLS_TAG)) return;
             BlockState state = wolf.getWorld().getBlockState(targetPos).with(DogBowlBlock.FILLED, false);
             wolf.getWorld().setBlockState(targetPos, state);
             wolf.getWorld().playSound(wolf.getX(), wolf.getY(), wolf.getZ(), SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.NEUTRAL, 1f, 1f, true);
@@ -43,6 +43,6 @@ public class DogEatOutBowlGoal extends MoveToTargetPosGoal {
 
     @Override
     protected boolean isTargetPos(WorldView world, BlockPos pos) {
-        return world.getBlockState(pos).isOf(WoofBlocks.DOG_BOWL_BLOCK) && world.getBlockState(pos).get(DogBowlBlock.FILLED);
+        return world.getBlockState(pos).isIn(WoofBlocks.DOG_BOWLS_TAG) && world.getBlockState(pos).get(DogBowlBlock.FILLED);
     }
 }
