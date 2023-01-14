@@ -6,7 +6,6 @@
 
 package mine.block.woof.mixin.client;
 
-import mine.block.woof.client.gui.WolfManagerScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Tameable;
 import net.minecraft.entity.passive.WolfEntity;
@@ -23,7 +22,7 @@ public abstract class ClientWolfEntityMixin implements Tameable {
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
         if (player.isSneaking() && this.getOwnerUuid() == player.getUuid() && player.getStackInHand(hand).isEmpty() && player.world.isClient) {
-            MinecraftClient.getInstance().setScreen(new WolfManagerScreen((WolfEntity) (Object) this));
+//            MinecraftClient.getInstance().setScreen(new WolfManagerScreen((WolfEntity) (Object) this));
             cir.setReturnValue(ActionResult.PASS);
         }
     }

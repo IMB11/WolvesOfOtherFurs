@@ -2,3 +2,6 @@ accessWidener v2 named
 accessible    field    net/minecraft/entity/passive/WolfEntity    lastShakeProgress    F
 accessible    field    net/minecraft/entity/passive/WolfEntity    shakeProgress    F
 accessible    class    net/minecraft/client/gui/hud/InGameHud$HeartType
+accessible field net/minecraft/entity/ai/goal/PrioritizedGoal priority I
+accessible class net/minecraft/entity/passive/WolfEntity$WolfEscapeDangerGoal
+accessible class net/minecraft/entity/passive/WolfEntity$AvoidLlamaGoal

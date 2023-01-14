@@ -1,6 +1,6 @@
 {
   "variants": {
-    "filled=false": { "model": "woof:dark_oak_dog_bowl" },
-    "filled=true": { "model": "woof:dark_oak_dog_bowl_meat" }
+    "filled=false": { "model": "woof:block/dark_oak_dog_bowl" },
+    "filled=true": { "model": "woof:block/dark_oak_dog_bowl_meat" }
   }
 }

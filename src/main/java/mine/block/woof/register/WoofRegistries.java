@@ -21,7 +21,15 @@ import mine.block.woof.entity.WolfVariantTracker;
 import mine.block.woof.register.block.WoofBlocks;
 import mine.block.woof.register.item.WoofItems;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.AbstractSkeletonEntity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.LlamaEntity;
+import net.minecraft.entity.passive.TurtleEntity;
+import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
@@ -54,11 +62,10 @@ public class WoofRegistries {
         WoofAPI.registerWolfVariant(Woof.id("lush"), (biome) -> biome.matchesId(new Identifier("lush_caves")));
 
 
-        // Builtin Goals
-
-        WoofDogGoalCallback.EVENT.register((goalSelector, wolfEntity) -> {
-            goalSelector.add(7, new DogSitOnBlockGoal(wolfEntity, 0.8));
-            goalSelector.add(4, new DogEatOutBowlGoal(wolfEntity, 0.9));
+        // Builtin Goals + Vanilla
+        WoofDogGoalCallback.EVENT.register((goalSelector, targetSelector, wolfEntity) -> {
+            goalSelector.add(2, new DogSitOnBlockGoal(wolfEntity, 0.8));
+            goalSelector.add(2, new DogEatOutBowlGoal(wolfEntity, 0.9));
         });
     }
 }

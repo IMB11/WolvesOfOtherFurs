@@ -31,18 +31,18 @@ public class WoofBlockstateProvider implements DataProvider {
                 String blockstateData = "{\n" +
                         "  \"variants\": {\n" +
                         "    \"facing=north\": {\n" +
-                        "      \"model\": \"" + identifier + "\",\n" +
+                        "      \"model\": \"" + identifier.withPrefixedPath("block/") + "\",\n" +
                         "      \"y\": 180\n" +
                         "    },\n" +
                         "    \"facing=east\": {\n" +
-                        "      \"model\": \"" + identifier + "\",\n" +
+                        "      \"model\": \"" + identifier.withPrefixedPath("block/") + "\",\n" +
                         "      \"y\": 270\n" +
                         "    },\n" +
                         "    \"facing=south\": {\n" +
-                        "      \"model\": \"" + identifier + "\"\n" +
+                        "      \"model\": \"" + identifier.withPrefixedPath("block/") + "\"\n" +
                         "    },\n" +
                         "    \"facing=west\": {\n" +
-                        "      \"model\": \"" + identifier + "\",\n" +
+                        "      \"model\": \"" + identifier.withPrefixedPath("block/") + "\",\n" +
                         "      \"y\": 90\n" +
                         "    }\n" +
                         "  }\n" +
@@ -57,8 +57,8 @@ public class WoofBlockstateProvider implements DataProvider {
             WoofBlocks.DOG_BOWLS.forEach((identifier, block) -> {
                 String blockstateData = "{\n" +
                         "  \"variants\": {\n" +
-                        "    \"filled=false\": { \"model\": \"" + identifier + "\" },\n" +
-                        "    \"filled=true\": { \"model\": \"" + identifier + "_meat\" }\n" +
+                        "    \"filled=false\": { \"model\": \"" + identifier.withPrefixedPath("block/") + "\" },\n" +
+                        "    \"filled=true\": { \"model\": \"" + identifier.withPrefixedPath("block/") + "_meat\" }\n" +
                         "  }\n" +
                         "}";
                 try {

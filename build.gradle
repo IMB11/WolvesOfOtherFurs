@@ -53,8 +53,6 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     modImplementation("mine.block:MRU:${project.lib11_version}")
-
-    include modImplementation("io.wispforest:owo-lib:${project.owo_version}")
 }
 
 processResources {

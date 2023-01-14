@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=north": {
-      "model": "woof:dark_oak_orange_dog_bed",
+      "model": "woof:block/dark_oak_orange_dog_bed",
       "y": 180
     },
     "facing=east": {
-      "model": "woof:dark_oak_orange_dog_bed",
+      "model": "woof:block/dark_oak_orange_dog_bed",
       "y": 270
     },
     "facing=south": {
-      "model": "woof:dark_oak_orange_dog_bed"
+      "model": "woof:block/dark_oak_orange_dog_bed"
     },
     "facing=west": {
-      "model": "woof:dark_oak_orange_dog_bed",
+      "model": "woof:block/dark_oak_orange_dog_bed",
       "y": 90
     }
   }

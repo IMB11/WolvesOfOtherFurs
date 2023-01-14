@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=north": {
-      "model": "woof:acacia_black_dog_bed",
+      "model": "woof:block/acacia_black_dog_bed",
       "y": 180
     },
     "facing=east": {
-      "model": "woof:acacia_black_dog_bed",
+      "model": "woof:block/acacia_black_dog_bed",
       "y": 270
     },
     "facing=south": {
-      "model": "woof:acacia_black_dog_bed"
+      "model": "woof:block/acacia_black_dog_bed"
     },
     "facing=west": {
-      "model": "woof:acacia_black_dog_bed",
+      "model": "woof:block/acacia_black_dog_bed",
       "y": 90
     }
   }

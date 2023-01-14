@@ -10,6 +10,7 @@ import mine.block.woof.api.Variant;
 import mine.block.woof.api.WoofAPI;
 import mine.block.woof.api.WoofDogGoalCallback;
 import mine.block.woof.entity.WolfVariantTracker;
+import mine.block.woof.entity.WoofWolf;
 import net.minecraft.entity.*;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.passive.WolfEntity;
@@ -39,24 +40,27 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Map;
 
 @Mixin(WolfEntity.class)
-public abstract class WolfEntityMixin extends TameableEntity {
+public abstract class WolfEntityMixin extends TameableEntity implements WoofWolf {
     Identifier variant;
     @Unique
     private int eatTick;
     @Unique
     private int hungerTick;
 
+    @Unique
+    private FollowMode followMode = FollowMode.FOLLOW;
+
     protected WolfEntityMixin(EntityType<? extends TameableEntity> entityType, World world) {
         super(entityType, world);
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void init_InjectTail(EntityType entityType, World world, CallbackInfo ci) {
+    public void $woof_init(EntityType entityType, World world, CallbackInfo ci) {
         this.setCanPickUpLoot(true);
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"))
-    public void tickMovement_InjectHead(CallbackInfo ci) {
+    public void $woof_tickMovement(CallbackInfo ci) {
         if (!this.world.isClient && this.isAlive()) {
             if (this.hungerTick > 0) {
                 this.hungerTick--;
@@ -92,7 +96,7 @@ public abstract class WolfEntityMixin extends TameableEntity {
         super.consumeItem();
     }
 
-    private void spitOutItem(ItemStack stack) {
+    private void $woof_spitOutItem(ItemStack stack) {
         if (!stack.isEmpty() && !this.world.isClient) {
             ItemEntity itementity = new ItemEntity(this.world, this.getX() + this.getRotationVector().x, this.getY() + 1.0D, this.getZ() + this.getRotationVector().z, stack);
             itementity.setPickupDelay(40);
@@ -102,12 +106,12 @@ public abstract class WolfEntityMixin extends TameableEntity {
         }
     }
 
-    private void dropItemStack(ItemStack stack) {
+    private void $woof_dropItemStack(ItemStack stack) {
         ItemEntity itementity = new ItemEntity(this.world, this.getX(), this.getY(), this.getZ(), stack);
         this.world.spawnEntity(itementity);
     }
 
-    public boolean canHoldItem(ItemStack stack) {
+    public boolean $woof_canHoldItem(ItemStack stack) {
         Item item = stack.getItem();
         ItemStack itemstack = this.getMainHandStack();
         return itemstack.isEmpty() && item.isFood() && item.getFoodComponent().isMeat();
@@ -117,13 +121,13 @@ public abstract class WolfEntityMixin extends TameableEntity {
     protected void loot(ItemEntity stack) {
         if (!this.isTamed()) {
             ItemStack itemstack = stack.getStack();
-            if (this.canHoldItem(itemstack)) {
+            if (this.$woof_canHoldItem(itemstack)) {
                 int i = itemstack.getCount();
                 if (i > 1) {
-                    this.dropItemStack(itemstack.split(i - 1));
+                    this.$woof_dropItemStack(itemstack.split(i - 1));
                 }
 
-                this.spitOutItem(this.getMainHandStack());
+                this.$woof_spitOutItem(this.getMainHandStack());
                 this.triggerItemPickedUpByEntityCriteria(stack);
                 this.equipStack(EquipmentSlot.MAINHAND, itemstack.split(1));
                 this.handDropChances[EquipmentSlot.MAINHAND.getEntitySlotId()] = 2.0F;
@@ -152,7 +156,7 @@ public abstract class WolfEntityMixin extends TameableEntity {
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
-    public void writeCustomDataToNbt_InjectTail(NbtCompound nbt, CallbackInfo ci) {
+    public void $woof_writeCustomDataToNbt(NbtCompound nbt, CallbackInfo ci) {
         nbt.putInt("hungerTick", hungerTick);
         nbt.putInt("eatTick", eatTick);
 
@@ -161,10 +165,11 @@ public abstract class WolfEntityMixin extends TameableEntity {
         }
 
         nbt.putString("variant", this.variant.toString());
+        nbt.putInt("followMode", this.followMode.ordinal());
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At("TAIL"))
-    public void readCustomDataFromNbt_InjectTail(NbtCompound nbt, CallbackInfo ci) {
+    public void $woof_readCustomDataFromNbt(NbtCompound nbt, CallbackInfo ci) {
         this.hungerTick = nbt.getInt("hungerTick");
         this.eatTick = nbt.getInt("eatTick");
         if (nbt.contains("variant")) {
@@ -174,21 +179,27 @@ public abstract class WolfEntityMixin extends TameableEntity {
             this.variant = new Identifier("woof", "default");
             this.dataTracker.set(WolfVariantTracker.VARIANT_TYPE, this.variant);
         }
+        this.followMode = FollowMode.values()[nbt.getInt("followMode")];
         this.setCanPickUpLoot(true);
     }
 
     @Inject(method = "canSpawn", at = @At("HEAD"), cancellable = true)
-    private static void injectCanSpawn(EntityType<WolfEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random, CallbackInfoReturnable<Boolean> cir) {
+    private static void $woof_canSpawn(EntityType<WolfEntity> type, WorldAccess world, SpawnReason spawnReason, BlockPos pos, Random random, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(true);
     }
 
     @Inject(method = "initDataTracker", at = @At("TAIL"))
-    public void initDataTracker_InjectTail(CallbackInfo ci) {
+    public void $woof_initDataTracker(CallbackInfo ci) {
         this.dataTracker.startTracking(WolfVariantTracker.VARIANT_TYPE, new Identifier("woof", "null"));
     }
 
     @Inject(method = "initGoals", at = @At("TAIL"))
-    public void initGoals_InjectTail(CallbackInfo ci) {
-        WoofDogGoalCallback.EVENT.invoker().registerGoal(this.goalSelector, (WolfEntity) (Object) this);
+    public void $woof_initGoals(CallbackInfo ci) {
+        WoofDogGoalCallback.EVENT.invoker().registerGoal(this.goalSelector, this.targetSelector, (WolfEntity) (Object) this);
+    }
+
+    @Override
+    public FollowMode getFollowMode() {
+        return this.followMode;
     }
 }

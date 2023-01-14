@@ -15,11 +15,11 @@ import net.minecraft.entity.passive.WolfEntity;
  * An event callback that allows you to register custom goals to wolves.
  */
 public interface WoofDogGoalCallback {
-    Event<WoofDogGoalCallback> EVENT = EventFactory.createArrayBacked(WoofDogGoalCallback.class, (listeners) -> (goalSelector, wolfEntity) -> {
+    Event<WoofDogGoalCallback> EVENT = EventFactory.createArrayBacked(WoofDogGoalCallback.class, (listeners) -> (goalSelector, targetSelector, wolfEntity) -> {
         for (WoofDogGoalCallback listener : listeners) {
-            listener.registerGoal(goalSelector, wolfEntity);
+            listener.registerGoal(goalSelector, targetSelector, wolfEntity);
         }
     });
 
-    void registerGoal(GoalSelector goalSelector, WolfEntity wolfEntity);
+    void registerGoal(GoalSelector goalSelector, GoalSelector targetSelector, WolfEntity wolfEntity);
 }
