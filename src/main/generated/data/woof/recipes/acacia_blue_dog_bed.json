@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:acacia_log"
+    },
+    "_": {
+      "item": "minecraft:blue_wool"
+    }
+  },
+  "pattern": [
+    "   ",
+    "#_#",
+    "###"
+  ],
+  "result": {
+    "item": "woof:acacia_blue_dog_bed"
+  }
+}

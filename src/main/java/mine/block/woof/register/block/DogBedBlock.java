@@ -23,8 +23,8 @@ import net.minecraft.world.BlockView;
 import java.util.stream.Stream;
 
 public class DogBedBlock extends HorizontalFacingBlock {
-    public final Identifier parentWoodType;
-    public final Identifier parentWoolType;
+    private final Identifier parentWoodType;
+    private final Identifier parentWoolType;
 
     public Identifier getParentWoodType() {
         return parentWoodType;

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:warped_stem"
+    },
+    "_": {
+      "item": "minecraft:orange_wool"
+    }
+  },
+  "pattern": [
+    "   ",
+    "#_#",
+    "###"
+  ],
+  "result": {
+    "item": "woof:warped_orange_dog_bed"
+  }
+}

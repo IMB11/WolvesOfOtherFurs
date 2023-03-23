@@ -71,5 +71,9 @@ public class WoofBlocks {
             ItemGroupEvents.modifyEntriesEvent(ItemGroups.COLORED_BLOCKS).register((e) -> e.add(value.asItem()));
             ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register((e) -> e.add(value.asItem()));
         }
+
+        for (Block value : DOG_BOWLS.values()) {
+            ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register((e) -> e.add(value.asItem()));
+        }
     }
 }

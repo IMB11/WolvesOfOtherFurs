@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:birch_log"
+    },
+    "_": {
+      "item": "minecraft:light_blue_wool"
+    }
+  },
+  "pattern": [
+    "   ",
+    "#_#",
+    "###"
+  ],
+  "result": {
+    "item": "woof:birch_light_blue_dog_bed"
+  }
+}

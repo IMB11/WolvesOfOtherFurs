@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": [],
+    "_": {
+      "item": "minecraft:smooth_stone"
+    }
+  },
+  "pattern": [
+    "   ",
+    "# #",
+    "___"
+  ],
+  "result": {
+    "item": "woof:acacia_dog_bowl"
+  }
+}

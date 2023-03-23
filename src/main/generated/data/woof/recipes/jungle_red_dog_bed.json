@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:jungle_log"
+    },
+    "_": {
+      "item": "minecraft:red_wool"
+    }
+  },
+  "pattern": [
+    "   ",
+    "#_#",
+    "###"
+  ],
+  "result": {
+    "item": "woof:jungle_red_dog_bed"
+  }
+}

@@ -30,11 +30,11 @@ import java.util.stream.Stream;
 public class DogBowlBlock extends Block {
     public static Property<Boolean> FILLED = BooleanProperty.of("filled");
 
+    private final Identifier parentWoodType;
+
     public Identifier getParentWoodType() {
         return parentWoodType;
     }
-
-    private final Identifier parentWoodType;
 
     public DogBowlBlock(Settings settings, Identifier parentWoodType) {
         super(settings);

@@ -7,10 +7,7 @@
 package mine.block.woof.datagen;
 
 import mine.block.woof.api.WoofAPI;
-import mine.block.woof.datagen.providers.WoofBlockstateProvider;
-import mine.block.woof.datagen.providers.WoofLanguageProvider;
-import mine.block.woof.datagen.providers.WoofModelProvider;
-import mine.block.woof.datagen.providers.WoofTagProvider;
+import mine.block.woof.datagen.providers.*;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
@@ -23,5 +20,7 @@ public class WoofDatagen implements DataGeneratorEntrypoint {
         pack.addProvider(WoofBlockstateProvider::new);
         pack.addProvider(WoofLanguageProvider::new);
         pack.addProvider(WoofTagProvider::new);
+        pack.addProvider(WoofRecipeProvider::new);
+        pack.addProvider(WoofLootProvider::new);
     }
 }
