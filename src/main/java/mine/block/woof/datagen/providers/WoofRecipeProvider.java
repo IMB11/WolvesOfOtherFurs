@@ -44,7 +44,7 @@ public class WoofRecipeProvider extends FabricRecipeProvider {
         }
 
         for (DogBowlBlock value : WoofBlocks.DOG_BOWLS.values()) {
-            Identifier slab = value.getParentWoodType().withPath(value.getParentWoodType().getPath() + "_slab");
+            Identifier slab = value.getParentWoodType().withPath(value.getParentWoodType().getPath().replace("_log", "") + "_slab");
             Block wood = Registries.BLOCK.get(slab);
             CraftingRecipeJsonBuilder recipe = ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, value)
                             .input('#', wood).input('_', Blocks.SMOOTH_STONE)

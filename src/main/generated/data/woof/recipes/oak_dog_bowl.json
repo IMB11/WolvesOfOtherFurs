@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": [],
+    "#": {
+      "item": "minecraft:oak_slab"
+    },
     "_": {
       "item": "minecraft:smooth_stone"
     }

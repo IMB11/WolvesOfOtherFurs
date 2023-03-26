@@ -10,6 +10,8 @@ import mine.block.woof.api.WoofAPI;
 import mine.block.woof.datagen.providers.*;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.minecraft.registry.RegistryBuilder;
+import net.minecraft.registry.RegistryKeys;
 
 public class WoofDatagen implements DataGeneratorEntrypoint {
     @Override
