@@ -7,19 +7,14 @@
 package mine.block.woof.register.block;
 
 import mine.block.woof.api.WoofAPI;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.item.*;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,8 +23,8 @@ import java.util.List;
 public class WoofBlocks {
     public static final HashMap<Identifier, DogBedBlock> DOG_BEDS = new HashMap<>();
     public static final HashMap<Identifier, DogBowlBlock> DOG_BOWLS = new HashMap<>();
-    public static final TagKey<Block> DOG_BOWLS_TAG = TagKey.of(RegistryKeys.BLOCK, new Identifier("woof", "dog_bowls"));
-    public static final TagKey<Block> DOG_BEDS_TAG = TagKey.of(RegistryKeys.BLOCK, new Identifier("woof", "dog_beds"));
+    public static final TagKey<Block> DOG_BOWLS_TAG = TagKey.of(Registry.BLOCK_KEY, new Identifier("woof", "dog_bowls"));
+    public static final TagKey<Block> DOG_BEDS_TAG = TagKey.of(Registry.BLOCK_KEY, new Identifier("woof", "dog_beds"));
 
     static {
         List<Identifier> validWoolBlocks = WoofAPI.getValidWoolTypes();
@@ -62,18 +57,11 @@ public class WoofBlocks {
     }
 
     private static <T extends Block> T register(String id, T block) {
-        Registry.register(Registries.ITEM, new Identifier("woof:" + id), new BlockItem(block, new Item.Settings()));
-        return Registry.register(Registries.BLOCK, new Identifier("woof:" + id), block);
+        Registry.register(Registry.ITEM, new Identifier("woof:" + id), new BlockItem(block, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
+        return Registry.register(Registry.BLOCK, new Identifier("woof:" + id), block);
     }
 
     public static void init() {
-        for (Block value : DOG_BEDS.values()) {
-            ItemGroupEvents.modifyEntriesEvent(ItemGroups.COLORED_BLOCKS).register((e) -> e.add(value.asItem()));
-            ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register((e) -> e.add(value.asItem()));
-        }
 
-        for (Block value : DOG_BOWLS.values()) {
-            ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register((e) -> e.add(value.asItem()));
-        }
     }
 }
