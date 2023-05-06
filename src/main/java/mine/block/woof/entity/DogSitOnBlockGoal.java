@@ -27,7 +27,7 @@ public class DogSitOnBlockGoal extends MoveToTargetPosGoal {
     }
 
     public boolean canStart() {
-        return this.wolf.isTamed() && !this.wolf.isSitting() && super.canStart();
+        return this.wolf.isTamed() && !this.wolf.isSitting() && wolf.world.isNight() && super.canStart();
     }
 
     public boolean shouldContinue() {

@@ -7,10 +7,15 @@
 package mine.block.woof.register.block;
 
 import mine.block.woof.Woof;
+import mine.block.woof.entity.DogEatOutBowlGoal;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Property;
@@ -56,6 +61,16 @@ public class DogBowlBlock extends Block {
         }
 
         return ActionResult.PASS;
+    }
+
+    @Override
+    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
+        if(world.isClient) return;
+        if (entity instanceof WolfEntity wolf) {
+            wolf.clearGoals(goal -> goal instanceof DogEatOutBowlGoal);
+            world.setBlockState(pos, state.with(FILLED, false));
+            world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_GENERIC_EAT, SoundCategory.NEUTRAL, 1f, 1.4f, false);
+        }
     }
 
     @Override

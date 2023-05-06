@@ -27,7 +27,7 @@ public class DogEatOutBowlGoal extends MoveToTargetPosGoal {
 
     @Override
     public boolean canStart() {
-        return !this.wolf.isSitting() && super.canStart();
+        return !this.wolf.isSitting() && this.wolf.getHealth() < this.wolf.getMaxHealth() && super.canStart();
     }
 
     @Override
