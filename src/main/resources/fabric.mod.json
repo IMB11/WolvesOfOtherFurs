@@ -32,7 +32,6 @@
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
-    "minecraft": ">=1.19.3",
-    "mru": ">=0.1.4+1.19.3"
+    "minecraft": ">=1.19.3"
   }
 }

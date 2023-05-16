@@ -23,6 +23,7 @@ public class WoofDatagen implements DataGeneratorEntrypoint {
         pack.addProvider(WoofLanguageProvider::new);
         pack.addProvider(WoofTagProvider::new);
         pack.addProvider(WoofRecipeProvider::new);
+        pack.addProvider(WoofBlockLootProvider::new);
         pack.addProvider(WoofLootProvider::new);
     }
 }
