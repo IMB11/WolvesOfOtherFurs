@@ -43,5 +43,6 @@
     "recipes": [
       "woof:spruce_pink_dog_bed"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -2,7 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": [],
+    "#": {
+      "item": "minecraft:warped_slab"
+    },
     "_": {
       "item": "minecraft:smooth_stone"
     }
@@ -14,5 +16,6 @@
   ],
   "result": {
     "item": "woof:warped_dog_bowl"
-  }
+  },
+  "show_notification": true
 }

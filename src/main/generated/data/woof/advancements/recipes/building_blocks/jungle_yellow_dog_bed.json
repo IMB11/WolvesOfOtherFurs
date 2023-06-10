@@ -43,5 +43,6 @@
     "recipes": [
       "woof:jungle_yellow_dog_bed"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

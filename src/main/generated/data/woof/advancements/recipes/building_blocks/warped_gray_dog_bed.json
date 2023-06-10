@@ -43,5 +43,6 @@
     "recipes": [
       "woof:warped_gray_dog_bed"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

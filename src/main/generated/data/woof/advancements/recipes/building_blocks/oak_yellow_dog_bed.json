@@ -43,5 +43,6 @@
     "recipes": [
       "woof:oak_yellow_dog_bed"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

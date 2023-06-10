@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "woof:jungle_light_blue_dog_bed"
-  }
+  },
+  "show_notification": true
 }

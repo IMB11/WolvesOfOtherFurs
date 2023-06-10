@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "woof:jungle_dog_bowl"
-  }
+  },
+  "show_notification": true
 }

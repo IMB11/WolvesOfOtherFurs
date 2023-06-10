@@ -30,5 +30,6 @@
     "recipes": [
       "woof:spruce_dog_bowl"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

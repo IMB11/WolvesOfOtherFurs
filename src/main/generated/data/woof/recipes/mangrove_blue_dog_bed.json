@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "woof:mangrove_blue_dog_bed"
-  }
+  },
+  "show_notification": true
 }

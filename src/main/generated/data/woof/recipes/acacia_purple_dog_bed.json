@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "woof:acacia_purple_dog_bed"
-  }
+  },
+  "show_notification": true
 }

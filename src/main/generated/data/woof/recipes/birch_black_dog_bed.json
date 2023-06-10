@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "woof:birch_black_dog_bed"
-  }
+  },
+  "show_notification": true
 }

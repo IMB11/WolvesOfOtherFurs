@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "woof:crimson_lime_dog_bed"
-  }
+  },
+  "show_notification": true
 }

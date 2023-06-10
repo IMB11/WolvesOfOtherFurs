@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "woof:mangrove_black_dog_bed"
-  }
+  },
+  "show_notification": true
 }

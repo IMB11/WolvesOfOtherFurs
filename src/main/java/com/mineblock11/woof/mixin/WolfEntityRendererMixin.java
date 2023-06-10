@@ -1,0 +1,38 @@
+/*
+ * Copyright (C) 2023 mineblock11 <https://github.com/mineblock11>
+ *
+ * All Rights Reserved
+ */
+
+package com.mineblock11.woof.mixin;
+
+import com.mineblock11.woof.api.Variant;
+import com.mineblock11.woof.api.WoofAPI;
+import com.mineblock11.woof.entity.WolfVariantTracker;
+import net.minecraft.client.render.entity.WolfEntityRenderer;
+import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.util.Identifier;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+
+@Mixin(WolfEntityRenderer.class)
+public class WolfEntityRendererMixin {
+    /**
+     * @author mineblock11
+     * @reason Base textures no longer valid.
+     */
+    @Overwrite
+    public Identifier getTexture(WolfEntity entity) {
+        return getTexture(entity, entity.getDataTracker().get(WolfVariantTracker.VARIANT_TYPE));
+    }
+
+    private Identifier getTexture(WolfEntity entity, Identifier type) {
+        Variant variant = WoofAPI.VARIANT_REGISTRY.get(type);
+        if (variant == null) return new Identifier("textures/entity/wolf/wolf.png");
+        if (entity.isTamed()) {
+            return variant.getTameTexture();
+        } else {
+            return entity.hasAngerTime() ? variant.getAngryTexture() : variant.getUntameTexture();
+        }
+    }
+}

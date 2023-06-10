@@ -43,5 +43,6 @@
     "recipes": [
       "woof:crimson_light_gray_dog_bed"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

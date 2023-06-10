@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "woof:warped_gray_dog_bed"
-  }
+  },
+  "show_notification": true
 }

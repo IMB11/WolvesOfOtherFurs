@@ -13,16 +13,13 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "mine.block.woof.client.WoofClient"
+      "com.mineblock11.woof.client.WoofClient"
     ],
     "main": [
-      "mine.block.woof.Woof"
+      "com.mineblock11.woof.Woof"
     ],
     "fabric-datagen": [
-      "mine.block.woof.datagen.WoofDatagen"
-    ],
-    "preLaunch": [
-      "mine.block.woof.WoofPrelaunch"
+      "com.mineblock11.woof.datagen.WoofDatagen"
     ]
   },
   "accessWidener": "woof.accesswidener",
@@ -32,6 +29,7 @@
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
-    "minecraft": ">=1.19.3"
+    "mru": "*",
+    "minecraft": ">=1.20"
   }
 }

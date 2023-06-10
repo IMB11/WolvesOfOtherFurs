@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "woof:spruce_brown_dog_bed"
-  }
+  },
+  "show_notification": true
 }

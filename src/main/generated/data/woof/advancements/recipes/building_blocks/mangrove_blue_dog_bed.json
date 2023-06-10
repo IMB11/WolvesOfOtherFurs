@@ -43,5 +43,6 @@
     "recipes": [
       "woof:mangrove_blue_dog_bed"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

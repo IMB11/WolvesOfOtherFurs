@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "woof:dark_oak_pink_dog_bed"
-  }
+  },
+  "show_notification": true
 }
