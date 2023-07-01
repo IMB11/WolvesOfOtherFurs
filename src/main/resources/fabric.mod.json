@@ -30,6 +30,6 @@
     "fabricloader": ">=0.14.8",
     "fabric": "*",
     "mru": "*",
-    "minecraft": ">=1.20"
+    "minecraft": ">=1.20.1"
   }
 }
