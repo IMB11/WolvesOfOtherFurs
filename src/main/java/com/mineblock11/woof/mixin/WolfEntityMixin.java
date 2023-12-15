@@ -100,7 +100,7 @@ public abstract class WolfEntityMixin extends TameableEntity implements WoofWolf
         if (!stack.isEmpty() && !this.getWorld().isClient) {
             ItemEntity itementity = new ItemEntity(this.getWorld(), this.getX() + this.getRotationVector().x, this.getY() + 1.0D, this.getZ() + this.getRotationVector().z, stack);
             itementity.setPickupDelay(40);
-            itementity.setThrower(this.getUuid());
+            itementity.setThrower(this);
             this.playSound(SoundEvents.ENTITY_FOX_SPIT, 1.0F, 1.0F);
             this.getWorld().spawnEntity(itementity);
         }

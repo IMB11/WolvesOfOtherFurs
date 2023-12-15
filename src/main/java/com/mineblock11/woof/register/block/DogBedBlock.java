@@ -6,10 +6,8 @@
 
 package com.mineblock11.woof.register.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.ShapeContext;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.block.*;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.Identifier;
@@ -32,6 +30,12 @@ public class DogBedBlock extends HorizontalFacingBlock {
 
     public Identifier getParentWoolType() {
         return parentWoolType;
+    }
+
+    public DogBedBlock(Settings settings) {
+        super(settings);
+        this.parentWoodType = new Identifier("minecraft", "oak");
+        this.parentWoolType = new Identifier("minecraft", "white");
     }
 
     public DogBedBlock(Settings settings, Identifier parentWoodType, Identifier parentWoolType) {
@@ -72,5 +76,10 @@ public class DogBedBlock extends HorizontalFacingBlock {
                 Block.createCuboidShape(2, 0, 0, 14, 2, 2),
                 Block.createCuboidShape(2, 0, 2, 14, 0.5, 14)
         ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, BooleanBiFunction.OR)).get());
+    }
+
+    @Override
+    protected MapCodec<? extends HorizontalFacingBlock> getCodec() {
+        return createCodec(DogBedBlock::new);
     }
 }

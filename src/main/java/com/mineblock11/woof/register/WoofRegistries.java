@@ -22,7 +22,7 @@ public class WoofRegistries {
 
     public static void initialize() {
         WoofBlocks.init();
-        WoofItems.init();
+//        WoofItems.init();
 
         TrackedDataHandlerRegistry.register(WolfVariantTracker.VARIANT_TRACKER);
 
