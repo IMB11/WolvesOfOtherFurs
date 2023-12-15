@@ -13,7 +13,6 @@ import com.mineblock11.woof.entity.DogEatOutBowlGoal;
 import com.mineblock11.woof.entity.DogSitOnBlockGoal;
 import com.mineblock11.woof.entity.WolfVariantTracker;
 import com.mineblock11.woof.register.block.WoofBlocks;
-import com.mineblock11.woof.register.item.WoofItems;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.util.Identifier;
